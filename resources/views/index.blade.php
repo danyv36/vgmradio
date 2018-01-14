@@ -6,6 +6,7 @@
     <script src="{{Storage::url('js/soundmanager-src/script/soundmanager2.js')}}"></script>
     <script src="{{Storage::url('js/bar-ui.js')}}"></script>
     <script src="{{Storage::url('js/jquery-3.2.1.min.js')}}"></script>
+    <script src="{{Storage::url('js/jscroll.js')}}"></script>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -21,9 +22,10 @@
         </div>
         <nav>
             <ul>
-              <li class="select"><a href="/">about &rsaquo;</a></li>
-              <li><a href="/about">request a song &rsaquo;</a></li>
-              <li><a href="/contact">register &rsaquo;</a></li>
+              <li class="select"><a href="/">home &rsaquo;</a></li>
+              <li><a href="/">about &rsaquo;</a></li>
+              <li><a href="/request">request a song &rsaquo;</a></li>
+              <li><a href="/login">login &rsaquo;</a></li>
             </ul>
           </nav>
     </header>
@@ -84,33 +86,14 @@
                     </div>
                 </div>
             </div>
-            <div class="bd sm2-playlist-drawer sm2-element" style="background-color: #e6e6e6;">
+            <div class="bd sm2-playlist-drawerz sm2-element" style="background-color: #e6e6e6;">
                 <div class="sm2-inline-texture">
                     <div class="sm2-box-shadow"></div>
                 </div>
                 <!-- playlist content is mirrored here -->
-                <div class="sm2-playlist-wrapper">
-                    <ul class="sm2-playlist-bd">
-                        <!-- Enter all sound clips as list items, per the example code below -->
-                        @foreach ($songs as $song)
-                        <li>
-                            <div class="sm2-row">
-                                <div class="sm2-col sm2-wide">
-                                    <a href="{{Storage::url($songFolder->value.''.$song->song_filename)}}" data-src="{{$song->ost_img_filename}}">
-                                        <b>{{$song->game}}</b> - {{$song->title}}</a>
-                                </div>
-                                <div class="sm2-col">
-                                    <a href="javascript:void(null);" title="Like" class="sm2-icon sm2-like sm2-exclude">Like</a>
-                                </div>
-                                <div class="sm2-col">
-                                    <a href="javascript:void(null);" title="Dislike" class="sm2-icon sm2-dislike sm2-exclude">Dislike</a>
-                                </div>
-                            </div>
-
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
+                <section class="songs-list">
+                    @include('load')
+                </section>
             </div>
         </div>
     </div>
@@ -120,7 +103,7 @@
 </html>
 
 <script>
-
+$( document ).ready(function() {
     $(".sm2-dislike").click(function () {
         var likeButton = $(this).parent().prev().children(0);
         if ($(this).hasClass("sm2-disliked")) // already disliked, remove disliked
@@ -146,4 +129,45 @@
             $(this).addClass("sm2-liked").removeClass("sm2-like");
     });
 
+    soundManager.setup({
+        url: 'soundmanager-src/swf',
+        flashVersion: 9, // optional: shiny features (default = 8)
+        waitForWindowLoad: true,
+        debugMode: false,
+        // optional: ignore Flash where possible, use 100% HTML5 mode
+        // preferFlash: false,
+        onready: function () {
+            //var playlist = window.sm2BarPlayers[0].dom.playlist.children;
+            //console.log(playlist);
+        } //onready
+    });
+
+    // for pagination :
+    $(function() {
+        $('body').on('click', '.pagination a', function(e) {
+            e.preventDefault();
+
+            //$('#load a').css('color', '#dfecf6');
+            //$('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/images/loading.gif" />');
+
+            var url = $(this).attr('href');  
+            console.log("url:::",url);
+            getSongs(url);
+            window.history.pushState("", "", url);
+        });
+
+        function getSongs(url) {
+            $.ajax({
+                url : url  
+            }).done(function (data) {
+                $('.songs-list').html(data);
+                window.sm2BarPlayers[0].playlistController.init();
+                window.sm2BarPlayers[0].playlistController.refresh();
+                //console.log(data);
+            }).fail(function () {
+                alert('Songs could not be loaded.');
+            });
+        }
+    });
+});
 </script>
