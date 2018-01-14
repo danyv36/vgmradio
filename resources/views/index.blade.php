@@ -1,5 +1,4 @@
 <html>
-
 <head>
     <link rel="stylesheet" href="{{Storage::url('css/bar-ui.css')}}">
     <link rel="stylesheet" href="{{Storage::url('css/responsive.css')}}">

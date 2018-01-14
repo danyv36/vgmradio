@@ -220,7 +220,6 @@
           var trackImg = item.childNodes[1].childNodes[1].childNodes[1].attributes[1].value;
           console.log("admin:trying to get the imgsrc::::::", trackImg);
           $('#track-img').attr('src', '/storage/images/ost/' + trackImg);
-          //$('#track-img').attr('src',"{{Storage::url('images/ost/"+trackImg+"')}}");
           callback('play', this);
         },
 

@@ -1,6 +1,5 @@
 <div class="sm2-playlist-wrapper">
     <ul class="sm2-playlist-bd">
-    <!-- Enter all sound clips as list items, per the example code below -->
         @foreach ($songs as $song)
             <li class="sm2-playlist-li">
                 <div class="sm2-row">
