@@ -134,10 +134,13 @@ $( document ).ready(function() {
         waitForWindowLoad: true,
         debugMode: false,
         // optional: ignore Flash where possible, use 100% HTML5 mode
-        // preferFlash: false,
+        preferFlash: false,
         onready: function () {
             //var playlist = window.sm2BarPlayers[0].dom.playlist.children;
-            //console.log(playlist);
+            window.sm2BarPlayers[0].playlistController.setCurrPage(1);
+            window.sm2BarPlayers[0].playlistController.setSelectedPage(1);
+            window.sm2BarPlayers[0].playlistController.setPageSwitch(false);
+            console.log("sm2Player ready");
         } //onready
     });
 
@@ -149,20 +152,33 @@ $( document ).ready(function() {
             //$('#load a').css('color', '#dfecf6');
             //$('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/images/loading.gif" />');
 
-            var url = $(this).attr('href');  
-            console.log("url:::",url);
-            getSongs(url);
+            var url = $(this).attr('href');
+            var page = url.split('page=')[1];
+            getSongs(url, page);
+
             window.history.pushState("", "", url);
         });
 
-        function getSongs(url) {
+        function getSongs(url, page) {
             $.ajax({
                 url : url  
             }).done(function (data) {
                 $('.songs-list').html(data);
-                window.sm2BarPlayers[0].playlistController.init();
-                window.sm2BarPlayers[0].playlistController.refresh();
-                //console.log(data);
+                // don't refresh the playlist just yet, since otherwise it will lose the current spot
+                // when it starts to play the next song
+                window.sm2BarPlayers[0].playlistController.setSelectedPage(parseInt(page));
+                window.sm2BarPlayers[0].playlistController.setPageSwitch(true);
+                
+                // keep song selected if selectedPage==currPage (e.g. the user switched back to the page currently playing)
+                if(window.sm2BarPlayers[0].dom.currPage == window.sm2BarPlayers[0].dom.selectedPage){
+                    var selectedIndex = window.sm2BarPlayers[0].playlistController.data.selectedIndex;
+                    selectedIndex++;
+                    $(".sm2-playlist-li:nth-child("+selectedIndex+")").addClass("selected");
+                    
+                    // then refresh dom :) otherwise previously selected li elements don't get de-selected when next song starts
+                    window.sm2BarPlayers[0].playlistController.init();
+                    window.sm2BarPlayers[0].playlistController.refresh();
+                }
             }).fail(function () {
                 alert('Songs could not be loaded.');
             });

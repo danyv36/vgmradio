@@ -104,7 +104,10 @@
       progressTrack: null,
       progressBar: null,
       duration: null,
-      volume: null
+      volume: null,
+      currPage: null, // admin: for pagination
+      selectedPage: null, // admin: for pagination
+      pageSwitch: null // admin: did a page switch happen by user? for pagination
     };
 
     // prepended to tracks when a sound fails to load/play
@@ -216,9 +219,12 @@
         onplay: function () {
           utils.css.swap(dom.o, 'paused', 'playing');
           var item = playlistController.getItem();
-          console.log("debug::item on play",item);
+          console.log("debug::item on play", item);
+          // TODO: the reason that the image will not match the picture until after the second click is 
+          // probably because init and refresh don't have callbacks...
           var trackImg = item.childNodes[1].childNodes[1].childNodes[1].attributes[1].value;
           console.log("admin:trying to get the imgsrc::::::", trackImg);
+          // TODO: don't have the storage hardcoded??
           $('#track-img').attr('src', '/storage/images/ost/' + trackImg);
           callback('play', this);
         },
@@ -331,9 +337,10 @@
 
           } else {
 
-            console.log("on finish:::reached end of playable items on page");
-            // admin:: go to next page
-            var currPage = $('ul.pagination').children(".active").children().text();
+            console.log("explained:::reached end of playable items on page");
+            // admin:: go to next page of the current played page, not the one the user selected
+            //var currPage = $('ul.pagination').children(".active").children().text();
+            var currPage = dom.currPage;
             // TODO: verify currPage is int; don't hardcode the URL...
             var nextPage = parseInt(currPage) + 1;
             nextPage = "http://localhost:8888?page=" + nextPage;
@@ -346,6 +353,9 @@
               console.log("Got the data::");
               $('.songs-list').html(data);
               // admin:: init and refresh dom
+              currPage = nextPage;
+              dom.selectedPage = currPage;
+
               playlistController = new PlaylistController();
               playlistController.init();
               playlistController.refresh();
@@ -429,7 +439,6 @@
         loopMode: false,
 
         timer: null
-
       };
 
       function getPlaylist() {
@@ -439,6 +448,8 @@
       }
 
       function getItem(offset) {
+
+        console.log("debug::calling getItem");
 
         var list,
           item;
@@ -554,6 +565,7 @@
           i, j;
 
         items = utils.dom.getAll(dom.playlist, '.' + css.selected);
+        console.log("debug::reset last selected::",items);
 
         for (i = 0, j = items.length; i < j; i++) {
           utils.css.remove(items[i], css.selected);
@@ -578,6 +590,7 @@
 
           liElement = utils.dom.ancestor('li', item);
 
+          // explained: adds the selected class to the li Element
           utils.css.add(liElement, css.selected);
 
           itemTop = item.offsetTop;
@@ -632,6 +645,24 @@
 
       }
 
+      // admin: for pagination
+      function setCurrPage(page){
+        // page in which music is currently playing
+        dom.currPage = page;
+      }
+
+      // admin: for pagination
+      function setSelectedPage(page){
+        // page that the user has selected
+        dom.selectedPage = page;
+      }
+
+      // admin: for pagination
+      function setPageSwitch(flag){
+        // page that the user has selected
+        dom.pageSwitch = flag;
+      }
+
       function refreshDOM() {
 
         // get / update playlist from DOM
@@ -652,7 +683,7 @@
         dom.playlistTarget = utils.dom.get(dom.o, '.sm2-playlist-target');
         dom.playlistContainer = utils.dom.get(dom.o, '.sm2-playlist-drawerz'); //admin: added a z, something with the styles was messing up the jscroll...
         dom.playlist = utils.dom.get(dom.o, '.sm2-playlist-bd'); //admin: this is where it gets the list of items to play
-        //console.log("admin::",dom.playlist);
+        dom.pageSwitch = false;
       }
 
       function initPlaylistController() {
@@ -684,7 +715,11 @@
         getItem: getItem,
         getURL: getURL,
         playItemByOffset: playItemByOffset,
-        select: select
+        select: select,
+        // admin: for pagination
+        setCurrPage: setCurrPage,
+        setSelectedPage: setSelectedPage,
+        setPageSwitch: setPageSwitch
       };
 
     }
@@ -877,6 +912,13 @@
           href = target.href;
 
           if (soundManager.canPlayURL(href)) {
+            // explained::it goes in here when you click on a link in the playlist
+            if ((dom.currPage != dom.selectedPage) || (dom.currPage == dom.selectedPage && dom.pageSwitch)){
+              console.log("debug::currpage and selected page are different, or page switch ocurred by user, REFRESHING THE DOM!");
+              dom.currPage = dom.selectedPage;
+              playlistController.init();
+              playlistController.refresh();
+            }
 
             // not excluded
             if (!utils.css.has(target, playerOptions.excludeClass)) {
