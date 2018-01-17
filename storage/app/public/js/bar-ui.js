@@ -219,7 +219,7 @@
         onplay: function () {
           utils.css.swap(dom.o, 'paused', 'playing');
           var item = playlistController.getItem();
-          console.log("debug::item on play", item);
+          //console.log("debug::item on play", item);
           // TODO: the reason that the image will not match the picture until after the second click is 
           // probably because init and refresh don't have callbacks...
           var trackImg = item.childNodes[1].childNodes[1].childNodes[1].attributes[1].value;
@@ -343,22 +343,24 @@
             var currPage = dom.currPage;
             // TODO: verify currPage is int; don't hardcode the URL...
             var nextPage = parseInt(currPage) + 1;
-            nextPage = "http://localhost:8888?page=" + nextPage;
+            var url = "http://localhost:8888?page=" + nextPage;
             // TODO: check if nextPage is available first :y
             console.log("nextPage::", nextPage);
 
             $.ajax({
-              url: nextPage
+              url: url
             }).done(function (data) {
               console.log("Got the data::");
               $('.songs-list').html(data);
               // admin:: init and refresh dom
-              currPage = nextPage;
-              dom.selectedPage = currPage;
+              dom.currPage = nextPage;
+              dom.selectedPage = dom.currPage;
+              console.log("currPage::",currPage, " selectedPage::",dom.selectedPage);
 
-              playlistController = new PlaylistController();
               playlistController.init();
               playlistController.refresh();
+              playlistController.data.selectedIndex = 0;
+              playlistController.playItemByOffset(0);
             }).fail(function () {
               alert('Songs could not be loaded.');
             });
@@ -449,7 +451,7 @@
 
       function getItem(offset) {
 
-        console.log("debug::calling getItem");
+        //console.log("debug::calling getItem");
 
         var list,
           item;
@@ -565,7 +567,7 @@
           i, j;
 
         items = utils.dom.getAll(dom.playlist, '.' + css.selected);
-        console.log("debug::reset last selected::",items);
+        //console.log("debug::reset last selected::",items);
 
         for (i = 0, j = items.length; i < j; i++) {
           utils.css.remove(items[i], css.selected);
@@ -914,7 +916,7 @@
           if (soundManager.canPlayURL(href)) {
             // explained::it goes in here when you click on a link in the playlist
             if ((dom.currPage != dom.selectedPage) || (dom.currPage == dom.selectedPage && dom.pageSwitch)){
-              console.log("debug::currpage and selected page are different, or page switch ocurred by user, REFRESHING THE DOM!");
+              //console.log("debug::currpage and selected page are different, or page switch ocurred by user, REFRESHING THE DOM!");
               dom.currPage = dom.selectedPage;
               playlistController.init();
               playlistController.refresh();

@@ -148,6 +148,7 @@ $( document ).ready(function() {
     $(function() {
         $('body').on('click', '.pagination a', function(e) {
             e.preventDefault();
+            console.log("on click::::");
 
             //$('#load a').css('color', '#dfecf6');
             //$('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/images/loading.gif" />');
