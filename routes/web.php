@@ -11,4 +11,12 @@
 |
 */
 
-Route::get('/', 'SongsController@home');
+Route::get('/', 'SongsController@home')->name('home');
+Route::resource('users', 'UsersController');
+Route::resource('sessions', 'SessionsController');
+Route::get('login', 'SessionsController@create')->name('login'); //adding name to check in view if user is logged in
+Route::get('logout', 'SessionsController@destroy');
+
+Route::get('admin', function(){
+    return 'Admin Page';
+});
