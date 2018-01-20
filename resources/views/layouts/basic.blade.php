@@ -17,7 +17,15 @@
         <li><a href="#">request a song</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        @if (Route::has('login'))
+            @auth
+                <li><a href="/user/playlists"><span class="glyphicon glyphicon-expand"></span> playlists</a></li>
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> logout</a></li>
+            @else
+                <li><a href="/register"><span class="glyphicon glyphicon-user"></span> register</a></li>
+                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> login</a></li>
+            @endauth
+        @endif
     </ul>
     </div>
     </nav>

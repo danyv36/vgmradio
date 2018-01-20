@@ -1,0 +1,27 @@
+to-do:
+-(done) fix ajax issue with ost img not changing
+-(done) fix tracks staying selected
+-(done) when changing pages, make sure that the currently playing song still has the class of "selected"
+-(done) when automatically changing pages, make the first song play :)
+-(done) change main CSS to use bootstrap
+-(done) basic user log in and authentication
+-(done) user likes and dislikes are saved to DB
+	- check if the liked/disliked song already exists, then insert/updated/delete based on that :D
+	- error handling for when can't save to DB
+-(done) when loading playlist, likes and dislikes are loaded as well
+-when user clicks on dislike, skip it
+
+-add to playlist
+-remove from playlist
+-create a new playlist
+-play from playlist
+-make playlist private or public
+
+-user form registration
+-request song form
+-if user is guest, use cookies to remember likes and dislikes
+
+-verify that the username doesn't already exist when registering
+-when logging in, if incorrect, display errors
+-add remember me checkbox
+-add forgot password

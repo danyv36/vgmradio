@@ -757,8 +757,8 @@
 
 
  .sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li .sm2-icon:hover {
-  /*background-color: rgba(255,255,255,0.25);*/
-  background-color: rgba(255, 255, 0);
+  background-color: rgba(255,255,255,0.25);
+  /*background-color: rgba(255, 255, 0);*/
   border-color: rgba(0,0,0,0.125);
  }
  

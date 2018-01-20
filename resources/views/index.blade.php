@@ -68,6 +68,6 @@
             </div>
         </div>
     </div>
-    <!--<footer><div></div></footer>-->
+    @include('footer')
     @stop
 

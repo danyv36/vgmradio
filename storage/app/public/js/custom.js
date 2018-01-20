@@ -1,27 +1,55 @@
 $(document).ready(function () {
+    if (data != null){
+        console.log("window.username::", data.username);
+        console.log("window.idUser::", data.idUser);
+    }
+
     $(".sm2-dislike").click(function () {
         var likeButton = $(this).parent().prev().children(0);
         if ($(this).hasClass("sm2-disliked")) // already disliked, remove disliked
             $(this).addClass("sm2-dislike").removeClass("sm2-disliked");
-        else if (likeButton.hasClass("sm2-liked")) { //disliked is already set
-            dislikeButton.addClass("sm2-like").removeClass("sm2-liked");
-            $(this).addClass("sm2-disliked").removeClass("sm2-dislike");
-        }
-        else
-            $(this).addClass("sm2-disliked").removeClass("sm2-dislike");
-        // mark this song to not play next time
+        else {
+            if (likeButton.hasClass("sm2-liked")) { //disliked is already set
+                dislikeButton.addClass("sm2-like").removeClass("sm2-liked");
+                $(this).addClass("sm2-disliked").removeClass("sm2-dislike");
+            }
+            else
+                $(this).addClass("sm2-disliked").removeClass("sm2-dislike");
+
+            var idSong = $(this).parent().siblings()[2].textContent;
+            var formData = {
+                idUser: data.idUser,
+                idSong: idSong,
+                likes: 0
+            }
+
+            saveLikes(formData);
+            // mark this song to not play next time
+        } // else: disliked
     });
 
     $(".sm2-like").click(function () {
         var dislikeButton = $(this).parent().next().children(0);
         if ($(this).hasClass("sm2-liked")) // already liked, remove liked
             $(this).addClass("sm2-like").removeClass("sm2-liked");
-        else if (dislikeButton.hasClass("sm2-disliked")) { //disliked is already set
-            dislikeButton.addClass("sm2-dislike").removeClass("sm2-disliked");
-            $(this).addClass("sm2-liked").removeClass("sm2-like");
-        }
-        else
-            $(this).addClass("sm2-liked").removeClass("sm2-like");
+        else {
+            if (dislikeButton.hasClass("sm2-disliked")) {
+                // disliked is already set, remove dislike and add it to likes
+                dislikeButton.addClass("sm2-dislike").removeClass("sm2-disliked");
+                $(this).addClass("sm2-liked").removeClass("sm2-like");
+            }
+            else
+                $(this).addClass("sm2-liked").removeClass("sm2-like"); // like it :)
+            // store liked song in DB
+            var idSong = $(this).parent().siblings()[2].textContent;
+            var formData = {
+                idUser: data.idUser,
+                idSong: idSong,
+                likes: 1
+            }
+
+            saveLikes(formData);
+        } // else: liked
     });
 
     soundManager.setup({
@@ -41,8 +69,8 @@ $(document).ready(function () {
     });
 
     // for pagination :
-    $(function() {
-        $('body').on('click', '.pagination a', function(e) {
+    $(function () {
+        $('body').on('click', '.pagination a', function (e) {
             e.preventDefault();
             console.log("on click::::");
 
@@ -58,20 +86,20 @@ $(document).ready(function () {
 
         function getSongs(url, page) {
             $.ajax({
-                url : url  
+                url: url
             }).done(function (data) {
                 $('.songs-list').html(data);
                 // don't refresh the playlist just yet, since otherwise it will lose the current spot
                 // when it starts to play the next song
                 window.sm2BarPlayers[0].playlistController.setSelectedPage(parseInt(page));
                 window.sm2BarPlayers[0].playlistController.setPageSwitch(true);
-                
+
                 // keep song selected if selectedPage==currPage (e.g. the user switched back to the page currently playing)
-                if(window.sm2BarPlayers[0].dom.currPage == window.sm2BarPlayers[0].dom.selectedPage){
+                if (window.sm2BarPlayers[0].dom.currPage == window.sm2BarPlayers[0].dom.selectedPage) {
                     var selectedIndex = window.sm2BarPlayers[0].playlistController.data.selectedIndex;
                     selectedIndex++;
-                    $(".sm2-playlist-li:nth-child("+selectedIndex+")").addClass("selected");
-                    
+                    $(".sm2-playlist-li:nth-child(" + selectedIndex + ")").addClass("selected");
+
                     // then refresh dom :) otherwise previously selected li elements don't get de-selected when next song starts
                     window.sm2BarPlayers[0].playlistController.init();
                     window.sm2BarPlayers[0].playlistController.refresh();
@@ -81,4 +109,25 @@ $(document).ready(function () {
             });
         }
     });
+
+    // save likes and dislikes
+    function saveLikes(formData){
+        
+        console.log("formData::", formData);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: '/likes',
+            data: formData,
+            type: "POST"
+        }).done(function (data) {
+            console.log("ajax response::", data);
+        }).fail(function () {
+            alert('Like could not be saved.');
+        });
+    }
 });

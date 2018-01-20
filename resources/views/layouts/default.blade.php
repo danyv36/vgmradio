@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="{{Storage::url('css/bar-ui.css')}}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 
 <body>
@@ -20,6 +21,7 @@
     <ul class="nav navbar-nav navbar-right">
         @if (Route::has('login'))
             @auth
+                <p class="navbar-text">{{ Auth::user()->username }}</p>
                 <li><a href="/user/playlists"><span class="glyphicon glyphicon-expand"></span> playlists</a></li>
                 <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> logout</a></li>
             @else
