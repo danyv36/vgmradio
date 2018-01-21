@@ -4,10 +4,14 @@ $(document).ready(function () {
         console.log("window.idUser::", data.idUser);
     }
 
-    $(".sm2-dislike").click(function () {
+    $(".sm2-dislike, .sm2-disliked").click(function () {
         var likeButton = $(this).parent().prev().children(0);
-        if ($(this).hasClass("sm2-disliked")) // already disliked, remove disliked
+        var idSong = $(this).parent().siblings()[2].textContent;
+        var likes = 0;
+        if ($(this).hasClass("sm2-disliked")){ // already disliked, remove disliked
             $(this).addClass("sm2-dislike").removeClass("sm2-disliked");
+            likes = -1;
+        }
         else {
             if (likeButton.hasClass("sm2-liked")) { //disliked is already set
                 dislikeButton.addClass("sm2-like").removeClass("sm2-liked");
@@ -15,23 +19,26 @@ $(document).ready(function () {
             }
             else
                 $(this).addClass("sm2-disliked").removeClass("sm2-dislike");
-
-            var idSong = $(this).parent().siblings()[2].textContent;
-            var formData = {
-                idUser: data.idUser,
-                idSong: idSong,
-                likes: 0
-            }
-
-            saveLikes(formData);
+            likes = 0;
             // mark this song to not play next time
         } // else: disliked
+        var formData = {
+            idUser: data.idUser,
+            idSong: idSong,
+            likes: likes
+        }
+        saveLikes(formData);
     });
 
-    $(".sm2-like").click(function () {
+    $(".sm2-like, .sm2-liked").click(function () {
+        console.log("like button clicked::");
         var dislikeButton = $(this).parent().next().children(0);
-        if ($(this).hasClass("sm2-liked")) // already liked, remove liked
+        var idSong = $(this).parent().siblings()[2].textContent;
+        var likes = 1;
+        if ($(this).hasClass("sm2-liked")){ // already liked, remove liked
             $(this).addClass("sm2-like").removeClass("sm2-liked");
+            likes = -1;
+        }
         else {
             if (dislikeButton.hasClass("sm2-disliked")) {
                 // disliked is already set, remove dislike and add it to likes
@@ -40,16 +47,14 @@ $(document).ready(function () {
             }
             else
                 $(this).addClass("sm2-liked").removeClass("sm2-like"); // like it :)
-            // store liked song in DB
-            var idSong = $(this).parent().siblings()[2].textContent;
-            var formData = {
-                idUser: data.idUser,
-                idSong: idSong,
-                likes: 1
-            }
-
-            saveLikes(formData);
+            likes = 1;
         } // else: liked
+        var formData = {
+            idUser: data.idUser,
+            idSong: idSong,
+            likes: likes
+        }
+        saveLikes(formData);
     });
 
     soundManager.setup({

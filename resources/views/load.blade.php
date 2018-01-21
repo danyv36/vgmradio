@@ -8,26 +8,18 @@
                             <b>{{$song->game}}</b> - {{$song->title}}</a>
                     </div>
                     <div class="sm2-col">
-                        @auth
-                            @if ($song->likes===1)
-                                <a href="javascript:void(null);" title="Like" class="sm2-icon sm2-liked sm2-exclude">Like</a>
-                            @else
-                                <a href="javascript:void(null);" title="Like" class="sm2-icon sm2-like sm2-exclude">Like</a>
-                            @endif
+                        @if ($song->likes===1)
+                            <a href="javascript:void(null);" title="Like" class="sm2-icon sm2-liked sm2-exclude">Like</a>
                         @else
                             <a href="javascript:void(null);" title="Like" class="sm2-icon sm2-like sm2-exclude">Like</a>
-                        @endauth
+                        @endif
                     </div>
                     <div class="sm2-col">
-                        @auth
-                            @if ($song->likes===0)
-                                <a href="javascript:void(null);" title="Dislike" class="sm2-icon sm2-disliked sm2-exclude">Dislike</a>
-                            @else
-                                <a href="javascript:void(null);" title="Dislike" class="sm2-icon sm2-dislike sm2-exclude">Dislike</a>
-                            @endif
+                        @if ($song->likes===0)
+                            <a href="javascript:void(null);" title="Dislike" class="sm2-icon sm2-disliked sm2-exclude">Dislike</a>
                         @else
                             <a href="javascript:void(null);" title="Dislike" class="sm2-icon sm2-dislike sm2-exclude">Dislike</a>
-                        @endauth
+                        @endif
                     </div>
                     <div style="display: none">{{$song->idsongs}}</div>
                 </div>

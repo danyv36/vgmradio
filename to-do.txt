@@ -6,16 +6,25 @@ to-do:
 -(done) change main CSS to use bootstrap
 -(done) basic user log in and authentication
 -(done) user likes and dislikes are saved to DB
-	- check if the liked/disliked song already exists, then insert/updated/delete based on that :D
-	- error handling for when can't save to DB
+	-(done) check if the liked/disliked song already exists, then insert/updated/delete based on that :D
+	-error handling for when can't save to DB
 -(done) when loading playlist, likes and dislikes are loaded as well
 -when user clicks on dislike, skip it
 
--add to playlist
+-(done) load playlists in menu at top
+-add song to playlist
 -remove from playlist
 -create a new playlist
+-when wanting to add a song to playlist, it should tell me whether the song is already in said playlist or not
+	-remove from playlist from here??
 -play from playlist
 -make playlist private or public
+
+-user can have a maximum of 20 playlists
+
+-search bar for main playlist
+
+-relaxing playlist at the top
 
 -user form registration
 -request song form

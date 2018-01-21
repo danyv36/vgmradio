@@ -22,7 +22,20 @@
         @if (Route::has('login'))
             @auth
                 <p class="navbar-text">{{ Auth::user()->username }}</p>
-                <li><a href="/user/playlists"><span class="glyphicon glyphicon-expand"></span> playlists</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">playlists <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        @if ($playlists->count())
+                            @foreach ($playlists as $playlist)
+                                <li>{{Html::link("/playlists/{$playlist->id}", $playlist->name, $playlist->name, null)}}</li>
+                                <!--li><a href="#">{{ $playlist->name }}</a></li-->
+                            @endforeach
+                        @else
+                            <li><a href="#">(no playlists)</a></li>
+                        @endif
+                    </ul>
+                </li>
+                <!--li><a href="/user/playlists"><span class="glyphicon glyphicon-expand"></span> playlists</a></li-->
                 <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> logout</a></li>
             @else
                 <li><a href="/register"><span class="glyphicon glyphicon-user"></span> register</a></li>
@@ -39,5 +52,6 @@
     <script src="{{Storage::url('js/bar-ui.js')}}"></script>
     <script src="{{Storage::url('js/jquery-3.2.1.min.js')}}"></script>
     <script src="{{Storage::url('js/custom.js')}}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
