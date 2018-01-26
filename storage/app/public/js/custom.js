@@ -5,6 +5,7 @@ $(document).ready(function () {
     }
 
     $(".sm2-dislike, .sm2-disliked").click(function () {
+        console.log("disliked clicked!");
         var likeButton = $(this).parent().prev().children(0);
         var idSong = $(this).parent().siblings()[2].textContent;
         var likes = 0;

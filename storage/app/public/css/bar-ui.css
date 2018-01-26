@@ -25,7 +25,7 @@
   max-width: 30em;
   /* take out overflow if you want an absolutely-positioned playlist dropdown. */
   border-radius: 2px;
-  overflow: hidden;
+  /*overflow: hidden; admin: removing in order to show user playlist dropdown*/ 
   /* just for fun (animate normal / full-width) */
   transition: max-width 0.2s ease-in-out;
  }
@@ -157,7 +157,7 @@
  }
  
  .sm2-bar-ui.textured.dark-text .sm2-playlist-wrapper ul li:hover a,
- .sm2-bar-ui.textured.dark-text .sm2-playlist-wrapper ul li.selected a {
+ .sm2-bar-ui.textured.dark-tefxt .sm2-playlist-wrapper ul li.selected a {
   /* dark + textured case: dark highlights */
   background-color: rgba(0,0,0,0.1);
   background-image: url(../images/black-10.png);
@@ -830,7 +830,7 @@
   border: none;
   background-image: none;
   display: block;
-  overflow: hidden;
+  /*overflow: hidden; admin: removing to show user playlist menu*/
   transition: height 0.2s ease-in-out;
  }
  
@@ -908,16 +908,11 @@
   background-image: none, none;
  }
  
- .sm2-playlist-wrapper ul {
+ /*admin: this controls the height of the playlist 
+ removing for now, causes weird stuff with dropdown*/
+ /*.sm2-playlist-wrapper ul {
   height: 100%;
-  
- }
-
- .infinite-scroll, .jscroll-inner {
-  height: 100%;
- }
- 
- /*admin: this controls the height of the playlist */
+ }*/
  
  .sm2-playlist-wrapper ul li {
   border-bottom: 1px solid rgba(0,0,0,0.05);
@@ -946,10 +941,9 @@
   padding: 2px 4px;
  }
  
+ /*explained::this is where the currently selected song is highlighted*/
  .sm2-bar-ui.dark-text ul li.selected a {
   background-color: rgba(255,255,255,0.45);
-  /*explained::this is where the currently selected song is highlighted*/
-  /*background-color: rgba(124, 10, 10, 0.45);*/
  }
  
  .sm2-bar-ui .disabled {
@@ -1050,7 +1044,7 @@
  .sm2-bar-ui .sm2-playlist-drawer {
   /* re-hide playlist */
   display: block;
-  overflow: hidden;
+  /*overflow: hidden; admin: removing to show user playlist menu*/
  }
 
 /**********************************
@@ -1134,7 +1128,6 @@ img{
 
 #player-wrap{
   margin: 0 auto;
-  /*padding: 0 2%;*/
   clear: both;
 }
 
