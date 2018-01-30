@@ -15,6 +15,8 @@ Route::get('/', 'SongsController@home')->name('home');
 Route::resource('users', 'UsersController');
 Route::resource('sessions', 'SessionsController');
 Route::resource('likes', 'LikesController');
+Route::resource('playlists', 'PlaylistsController');
+Route::resource('playlistdetails', 'PlaylistDetailsController');
 Route::get('login', 'SessionsController@create')->name('login'); //adding name to check in view if user is logged in
 Route::get('logout', 'SessionsController@destroy');
 

@@ -1,15 +1,16 @@
 $(document).ready(function () {
-    if (data != null){
+    if (data != null) {
         console.log("window.username::", data.username);
         console.log("window.idUser::", data.idUser);
     }
 
     $(".sm2-dislike, .sm2-disliked").click(function () {
         console.log("disliked clicked!");
-        var likeButton = $(this).parent().prev().children(0);
-        var idSong = $(this).parent().siblings()[2].textContent;
+        var likeButton = $(this).parent().prev().children();
+        //var idSong = $(this).parent().siblings()[2].textContent;
+        var idSong = $(this).parent().siblings(":first").children(":first")[0].dataset.id;
         var likes = 0;
-        if ($(this).hasClass("sm2-disliked")){ // already disliked, remove disliked
+        if ($(this).hasClass("sm2-disliked")) { // already disliked, remove disliked
             $(this).addClass("sm2-dislike").removeClass("sm2-disliked");
             likes = -1;
         }
@@ -33,10 +34,11 @@ $(document).ready(function () {
 
     $(".sm2-like, .sm2-liked").click(function () {
         console.log("like button clicked::");
-        var dislikeButton = $(this).parent().next().children(0);
-        var idSong = $(this).parent().siblings()[2].textContent;
+        var dislikeButton = $(this).parent().next().children();
+        //var idSong = $(this).parent().siblings()[2].textContent;
+        var idSong = $(this).parent().siblings(":first").children(":first")[0].dataset.id;
         var likes = 1;
-        if ($(this).hasClass("sm2-liked")){ // already liked, remove liked
+        if ($(this).hasClass("sm2-liked")) { // already liked, remove liked
             $(this).addClass("sm2-like").removeClass("sm2-liked");
             likes = -1;
         }
@@ -56,6 +58,20 @@ $(document).ready(function () {
             likes: likes
         }
         saveLikes(formData);
+    });
+
+    // Show and hide user playlist menu:
+    $(".sm2-row").mouseenter(function () {
+        $(this).children(":nth-child(2)").children(":first").removeClass("dropdown-hidden");
+    });
+
+    $(".sm2-row").mouseleave(function () {
+        if ($(this).children(":nth-child(2)").children(":first").hasClass("open")){
+            // do nothing if playlist menu is open
+        } 
+        else{
+            $(this).children(":nth-child(2)").children(":first").addClass("dropdown-hidden");
+        }
     });
 
     soundManager.setup({
@@ -117,8 +133,8 @@ $(document).ready(function () {
     });
 
     // save likes and dislikes
-    function saveLikes(formData){
-        
+    function saveLikes(formData) {
+
         console.log("formData::", formData);
         $.ajaxSetup({
             headers: {
@@ -136,4 +152,16 @@ $(document).ready(function () {
             alert('Like could not be saved.');
         });
     }
+
+    // add items to playlist
+    $(".playlist-name").click(function(){
+        console.log("You clicked the drop down menu!! :)");
+        var idPlaylist = $(this)[0].dataset.id; // get id of playlist
+        var idSong = $(this).parent().parent().parent().parent().siblings(":first").children(":first")[0].dataset.id; // get id of song
+
+        var formData = {
+            idSong: idSong,
+            idPlaylist: idPlaylist
+        }
+    });
 });

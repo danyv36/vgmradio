@@ -11,6 +11,8 @@ to-do:
 -(done) when loading playlist, likes and dislikes are loaded as well
 -when user clicks on dislike, skip it
 
+-(done) change how likes/dislikes are saved to DB (using data-id instead)
+
 -(done) load playlists in menu at top
 -add song to playlist
 -remove from playlist
@@ -34,3 +36,10 @@ to-do:
 -when logging in, if incorrect, display errors
 -add remember me checkbox
 -add forgot password
+
+styling stuff:
+-the playlist button looks weird
+	-fix the border...for some reason it looks like it's one pixel below what it should be
+-add a "add to playlist" header to the dropdown menu :)
+-remove the border in each playlist element
+-remove left border for playlist button ;)
