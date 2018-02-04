@@ -60,20 +60,6 @@ $(document).ready(function () {
         saveLikes(formData);
     });
 
-    // Show and hide user playlist menu:
-    $(".sm2-row").mouseenter(function () {
-        $(this).children(":nth-child(2)").children(":first").removeClass("dropdown-hidden");
-    });
-
-    $(".sm2-row").mouseleave(function () {
-        if ($(this).children(":nth-child(2)").children(":first").hasClass("open")){
-            // do nothing if playlist menu is open
-        } 
-        else{
-            $(this).children(":nth-child(2)").children(":first").addClass("dropdown-hidden");
-        }
-    });
-
     soundManager.setup({
         url: 'soundmanager-src/swf',
         flashVersion: 9, // optional: shiny features (default = 8)
@@ -101,8 +87,8 @@ $(document).ready(function () {
 
             var url = $(this).attr('href');
             var page = url.split('page=')[1];
+            console.log("url::", url, "page::", page)
             getSongs(url, page);
-
             window.history.pushState("", "", url);
         });
 
@@ -153,15 +139,67 @@ $(document).ready(function () {
         });
     }
 
-    // add items to playlist
+    /***********************
+        USER PLAYLIST
+    ************************/
+
+    // Show and hide user playlist menu:
+
+    $(".songs-list").on('mouseenter', '.sm2-row', function( event ) {
+        $(this).children(":nth-child(2)").removeClass("dropdown-hidden");
+    }).on('mouseleave', '.sm2-row', function( event ) {
+        if ($(this).children(":nth-child(2)").children(":first").children(":nth-child(2)").hasClass("showPlaylist")){
+            // do nothing if playlist menu is open
+        } 
+        else{
+            $(this).children(":nth-child(2)").addClass("dropdown-hidden");
+        }
+    });
+
+    // Add items to playlist 
     $(".playlist-name").click(function(){
         console.log("You clicked the drop down menu!! :)");
         var idPlaylist = $(this)[0].dataset.id; // get id of playlist
-        var idSong = $(this).parent().parent().parent().parent().siblings(":first").children(":first")[0].dataset.id; // get id of song
+        var idSong = $(this).parent().parent().parent().siblings(":first").children(":first")[0].dataset.id; // get id of song
 
         var formData = {
             idSong: idSong,
             idPlaylist: idPlaylist
         }
+        
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: '/playlistdetails',
+            data: formData,
+            type: "POST"
+        }).done(function (data) {
+            console.log("ajax response::", data);
+        }).fail(function () {
+            alert('Playlist detail could not be saved.');
+        });
     });
+
+    $(".dropbtn").click(function(){
+        $(this).next().addClass("showPlaylist");
+	});
+	
+	window.onclick = function(event) {
+	  if (!event.target.matches('.dropbtn')) {
+
+		var dropdowns = document.getElementsByClassName("dropdown-content");
+		var i;
+		for (i = 0; i < dropdowns.length; i++) {
+			
+		  var openDropdown = dropdowns[i];
+		  if (openDropdown.classList.contains('showPlaylist')) {
+			openDropdown.classList.remove('showPlaylist');
+		  }
+		}
+	  }
+	}
 });

@@ -25,7 +25,7 @@
   max-width: 30em;
   /* take out overflow if you want an absolutely-positioned playlist dropdown. */
   border-radius: 2px;
-  /*overflow: hidden; admin: removing in order to show user playlist dropdown*/ 
+  overflow: hidden;
   /* just for fun (animate normal / full-width) */
   transition: max-width 0.2s ease-in-out;
  }
@@ -157,7 +157,7 @@
  }
  
  .sm2-bar-ui.textured.dark-text .sm2-playlist-wrapper ul li:hover a,
- .sm2-bar-ui.textured.dark-tefxt .sm2-playlist-wrapper ul li.selected a {
+ .sm2-bar-ui.textured.dark-text .sm2-playlist-wrapper ul li.selected a {
   /* dark + textured case: dark highlights */
   background-color: rgba(0,0,0,0.1);
   background-image: url(../images/black-10.png);
@@ -420,6 +420,11 @@
   position: relative;
   display: table-row;
  }
+
+ .sm2-row-progressbar {
+  position: relative;
+  display: table-row;
+ }
  
  .sm2-progress-bd {
   /* spacing between progress track/ball and time (position) */
@@ -654,19 +659,18 @@
  .sm2-playlist-wrapper ul li .sm2-col:last-of-type {
    border-right: none;
  }
-  
- /* admin: getting rid of this for now since it causes problems with the bootstrap dropdown menu.. */
- /*.sm2-playlist-wrapper ul li:hover a {
-  background-color: rgba(0,0,0,0.20);
- }*/
 
- /* admin: getting rid of this for now since it causes problems with the bootstrap dropdown menu.. */
- /*.sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li:hover a {
-    background-color: rgba(255,255,255,0.80);
-   }*/
+ /* admin: getting rid of these for now since it causes problems with the bootstrap dropdown menu.. */
+ /*.sm2-playlist-wrapper ul li:hover a {
+  background-color: rgba(0,0,0,0.20);  
+ }
  
-   /* admin: getting rid of this for now since it causes problems with the bootstrap dropdown menu.. */
- /*.sm2-playlist-wrapper ul li.selected a {
+ 
+ .sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li:hover a {
+    background-color: rgba(255,255,255,0.80);
+   }
+ 
+ .sm2-playlist-wrapper ul li.selected a {
   background-color: rgba(0, 0, 0, 0.85);
   background-image: url(../images/black-20.png);
   background-image: none, none;
@@ -735,12 +739,13 @@
  .sm2-bar-ui .sm2-playlist-wrapper ul li.selected .sm2-like:hover, 
  .sm2-bar-ui .sm2-playlist-wrapper ul li.selected .sm2-liked, .sm2-liked {
   background-image: url(../images/icomoon/entypo-25px-000000/PNG/smile-dark.png);
-  /*background-color: rgb(0, 0, 0);*/
  }
 
- .menu-playlist {
+ 
+ .sm2-bar-ui .sm2-playlist-wrapper ul li .sm2-uplaylist:hover,
+ .sm2-bar-ui .sm2-playlist-wrapper ul li.selected .sm2-uplaylist:hover, 
+ .sm2-bar-ui .sm2-playlist-wrapper ul li.selected .sm2-uplaylist, .sm2-uplaylist {
   background-image: url(../images/icomoon/entypo-25px-000000/PNG/menu-vertical.png);
-  /*background-color: rgb(0, 0, 0);*/
  }
  
  .sm2-bar-ui.dark-text .sm2-playlist-wrapper ul li .sm2-col {
@@ -832,7 +837,7 @@
   border: none;
   background-image: none;
   display: block;
-  /*overflow: hidden; admin: removing to show user playlist menu*/
+  overflow: hidden;
   transition: height 0.2s ease-in-out;
  }
  
@@ -910,11 +915,16 @@
   background-image: none, none;
  }
  
- /*admin: this controls the height of the playlist 
- removing for now, causes weird stuff with dropdown*/
- /*.sm2-playlist-wrapper ul {
+ .sm2-playlist-wrapper ul {
   height: 100%;
- }*/
+  
+ }
+
+ .infinite-scroll, .jscroll-inner {
+  height: 100%;
+ }
+ 
+ /*admin: this controls the height of the playlist */
  
  .sm2-playlist-wrapper ul li {
   border-bottom: 1px solid rgba(0,0,0,0.05);
@@ -926,7 +936,8 @@
  
  .sm2-playlist-wrapper ul li a {
   display: block;
-  padding: 0.5em 0.25em 0.5em 0.75em;
+  /*padding: 0.5em 0.25em 0.5em 0.75em;*/
+  padding: 0.8em 0.25em 0.8em 0.75em;
   margin-right: 0px;
   font-size: 90%;
   vertical-align: middle;
@@ -942,11 +953,12 @@
   margin-left: 0px;
   padding: 2px 4px;
  }
- 
- /*explained::this is where the currently selected song is highlighted
- admin:: changing selected classes since otherwise it causes issues with the dropdown menu from BS*/
+
+/*explained::this is where the currently selected song is highlighted
+admin:: changing selected classes since otherwise it causes issues with the dropdown menu
+(e.g. doesn't highlight the selected playlist on hover*/
  /*.sm2-bar-ui.dark-text ul li.selected a {*/
-  ul li.selected a {
+ul li.selected a {
   background-color: rgba(255,255,255,0.45);
  }
  
@@ -1048,16 +1060,12 @@
  .sm2-bar-ui .sm2-playlist-drawer {
   /* re-hide playlist */
   display: block;
-  /*overflow: hidden; admin: removing to show user playlist menu*/
+  overflow: hidden;
  }
 
 /**********************************
 CUSTOM STYLES
 ***********************************/
-
-.dropdown-hidden{
-  display: none;
-}
 
 .sm2-bar-ui{
   box-shadow:  0 4px 8px 0 rgba(0, 0, 0, 0.3);
@@ -1136,6 +1144,7 @@ img{
 
 #player-wrap{
   margin: 0 auto;
+  /*padding: 0 2%;*/
   clear: both;
 }
 
@@ -1190,4 +1199,59 @@ COLORS
 
 #radio {
   color: #039dcc;
+}
+
+/**********************************
+DROPDOWN
+***********************************/
+
+.dropbtn {
+  /*background-color: #3498DB;*/
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/*.dropbtn:hover, .dropbtn:focus {
+  background-color: #2980B9;
+}*/
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  right: 0;
+  z-index: 1;
+}
+
+.dropdown-content a{
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content div {
+  color: rgb(88, 88, 88);
+  padding: 0.8em 0.25em 0.8em 0.75em;
+  display: block;
+  font-size: 90%
+}
+
+.dropdown-content a:hover {background-color: #ddd}
+
+.showPlaylist {display:block;}
+
+.dropdown-hidden{
+  display: none;
 }

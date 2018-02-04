@@ -159,10 +159,11 @@
       if (links.length) {
         item = links[0];
       }
-      var titleArr = item.innerHTML.split("-");
-
-      var game = titleArr[0].trim().substring(3); // remove the <b></b> tags
-      game = game.substring(0, game.length - 4);
+      //console.log("item titlearr::", item);
+      var titleArr = item.innerText.split("-");
+      console.log("titleArr::", titleArr);
+      var game = titleArr[0].trim();
+      game = game.substring(0, game.length);
       var song = titleArr[1].trim();
 
       $('#song-name').text(song);
@@ -222,7 +223,8 @@
           //console.log("debug::item on play", item);
           // TODO: the reason that the image will not match the picture until after the second click is 
           // probably because init and refresh don't have callbacks...
-          var trackImg = item.childNodes[1].childNodes[1].childNodes[1].attributes[1].value;
+          //console.log("item:::", item);
+          var trackImg = item.childNodes[1].childNodes[1].childNodes[1].attributes[2].value; //data-src attribute
           console.log("admin:trying to get the imgsrc::::::", trackImg);
           // TODO: don't have the storage hardcoded??
           $('#track-img').attr('src', '/storage/images/ost/' + trackImg);
@@ -343,7 +345,7 @@
             var currPage = dom.currPage;
             // TODO: verify currPage is int; don't hardcode the URL...
             var nextPage = parseInt(currPage) + 1;
-            var url = "http://localhost:8888?page=" + nextPage;
+            var url = "http://localhost:8000?page=" + nextPage;
             // TODO: check if nextPage is available first :y
             console.log("nextPage::", nextPage);
 

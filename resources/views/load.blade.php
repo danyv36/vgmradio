@@ -7,18 +7,19 @@
                         <a href="{{Storage::url($songFolder->value.''.$song->song_filename)}}" data-id="{{$song->idsongs}}" data-src="{{$song->ost_img_filename}}">
                             <b>{{$song->game}}</b> - {{$song->title}}</a>
                     </div>
-                    <div class="sm2-col">
-                        <div class="dropdown dropdown-hidden" >
-                            <a class="dropdown-toggle sm2-exclude" role="button" data-toggle="dropdown">
-                                <span class="glyphicon glyphicon-option-vertical" style="width:16px; height: 15px;"></span>
-                            </a>
-                            <ul class="dropdown-menu">
+                    @auth
+                    <div class="dropdown-hidden">
+                        <div class="sm2-col">
+                            <a class="dropbtn sm2-icon sm2-uplaylist sm2-exclude">d</a>
+                            <div id="myDropdown" class="dropdown-content">
+                                <div>Add to playlist</div>
                                 @foreach ($playlists as $playlist)
-                                    <li><a href="javascript:void(null);" data-id="{{$playlist->id}}" class="playlist-name">{{$playlist->name}}</a></li>
+                                    <a href="javascript:void(null);"  data-id="{{$playlist->id}}" class="playlist-name">{{$playlist->name}}</a>
                                 @endforeach
-                            </ul>
+                            </div>
                         </div>
                     </div>
+                    @endauth
                     <div class="sm2-col">
                         @if ($song->likes===1)
                             <a href="javascript:void(null);" title="Like" class="sm2-icon sm2-liked sm2-exclude">Like</a>

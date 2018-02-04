@@ -14,15 +14,21 @@ to-do:
 -(done) change how likes/dislikes are saved to DB (using data-id instead)
 
 -(done) load playlists in menu at top
--add song to playlist
--remove from playlist
+-(done) add song to playlist
+-(done)playlist menu is interfering when getting next track
+	-(done)just drop the usage of bootstrap dropdowns for this...
+-(done) playlist menu disappears when page changes... (had to change from .mousenter to .on)
+-remove from playlist (from playlist page)
 -create a new playlist
--when wanting to add a song to playlist, it should tell me whether the song is already in said playlist or not
-	-remove from playlist from here??
+	-from navbar
+	-from submenu in song list
+-(pending) when wanting to add a song to playlist, it should tell me whether the song is already in said playlist or not
+	-(nope) remove from playlist from here??
 -play from playlist
 -make playlist private or public
 
 -user can have a maximum of 20 playlists
+-playlist name limited to 40 characters
 
 -search bar for main playlist
 
@@ -30,7 +36,7 @@ to-do:
 
 -user form registration
 -request song form
--if user is guest, use cookies to remember likes and dislikes
+-(pending) if user is guest, use cookies to remember likes and dislikes
 
 -verify that the username doesn't already exist when registering
 -when logging in, if incorrect, display errors
