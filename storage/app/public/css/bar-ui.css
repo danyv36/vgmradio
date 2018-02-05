@@ -25,7 +25,7 @@
   max-width: 30em;
   /* take out overflow if you want an absolutely-positioned playlist dropdown. */
   border-radius: 2px;
-  overflow: hidden;
+  /*overflow: hidden; admin: removing in order to show user playlist dropdown*/ 
   /* just for fun (animate normal / full-width) */
   transition: max-width 0.2s ease-in-out;
  }
@@ -43,7 +43,7 @@
  }
 
  .sm2-bar-ui.large{
-   max-width: 70%;
+   max-width: 95%;
  }
  
  .sm2-bar-ui ul {
@@ -837,7 +837,7 @@
   border: none;
   background-image: none;
   display: block;
-  overflow: hidden;
+  /*overflow: hidden; admin: removing to show user playlist menu*/
   transition: height 0.2s ease-in-out;
  }
  
@@ -1060,7 +1060,7 @@ ul li.selected a {
  .sm2-bar-ui .sm2-playlist-drawer {
   /* re-hide playlist */
   display: block;
-  overflow: hidden;
+  /*overflow: hidden; admin: removing to show user playlist menu*/
  }
 
 /**********************************
@@ -1148,6 +1148,10 @@ img{
   clear: both;
 }
 
+.page-header h2{
+  margin-left: 1.5em;
+}
+
 /************* Header *****************/
 header{
   width: 100%;
@@ -1159,25 +1163,6 @@ header{
   margin-bottom: 2em;
   background-color: #ffffff;
 }
-
-#logo{
-  padding-left: 3%;
-  width: 65%;
-  text-align: left;
-  font-size: 1.1em;
-  display: inline-block;
-}
-
-#logo h1{
-  margin: 0; /* remove the top margin of web page*/
-  font-size: 1.5em;
-  display: inline-block;
-  font-weight: 600;
-}
-
-/*#logo, nav a{
-  line-height: 54px; /* vertically-align the h1 
-}*/
 
 /************** Footer **************/
 

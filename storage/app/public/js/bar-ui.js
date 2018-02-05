@@ -1205,8 +1205,9 @@
         }
 
         // playlist
-        dom.playlistContainer.style.height = (isOpen ? dom.playlistContainer.scrollHeight : 0) + 'px';
-
+        //dom.playlistContainer.style.height = (isOpen ? dom.playlistContainer.scrollHeight : 0) + 'px';
+        // admin: making it auto for when the user removes a song from the playlist
+        dom.playlistContainer.style.height = "auto";
       },
 
       adjustVolume: function (e) {

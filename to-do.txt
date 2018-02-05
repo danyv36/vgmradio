@@ -18,13 +18,14 @@ to-do:
 -(done)playlist menu is interfering when getting next track
 	-(done)just drop the usage of bootstrap dropdowns for this...
 -(done) playlist menu disappears when page changes... (had to change from .mousenter to .on)
--remove from playlist (from playlist page)
+-(done) user playlist page
+-(done) remove from playlist (from playlist page)
 -create a new playlist
 	-from navbar
 	-from submenu in song list
 -(pending) when wanting to add a song to playlist, it should tell me whether the song is already in said playlist or not
 	-(nope) remove from playlist from here??
--play from playlist
+-(done) play from playlist
 -make playlist private or public
 
 -user can have a maximum of 20 playlists
@@ -44,8 +45,4 @@ to-do:
 -add forgot password
 
 styling stuff:
--the playlist button looks weird
-	-fix the border...for some reason it looks like it's one pixel below what it should be
--add a "add to playlist" header to the dropdown menu :)
--remove the border in each playlist element
--remove left border for playlist button ;)
+-when the playlist button is pressed, then another one is pressed, both stay open!

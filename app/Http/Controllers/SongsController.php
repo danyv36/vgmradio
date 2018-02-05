@@ -43,7 +43,7 @@ class SongsController extends Controller
         if ($request->ajax()) {
             return view('load')->withSongs($songs)->with('songFolder', $setup)->with('playlists', $playlists)->render();
         }
-        return view('index')->withSongs($songs)->with('songFolder', $setup)->with('playlists', $playlists); // laravel assumes we are looking for a songs key
+        return view('index')->withSongs($songs)->with('songFolder', $setup)->with('playlists', $playlists);
         //return $playlists;
     }
 }

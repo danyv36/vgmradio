@@ -157,7 +157,7 @@ $(document).ready(function () {
     });
 
     // Add items to playlist 
-    $(".playlist-name").click(function(){
+    $(".songs-list").on('click', '.playlist-name', function (event){
         console.log("You clicked the drop down menu!! :)");
         var idPlaylist = $(this)[0].dataset.id; // get id of playlist
         var idSong = $(this).parent().parent().parent().siblings(":first").children(":first")[0].dataset.id; // get id of song
@@ -184,9 +184,45 @@ $(document).ready(function () {
         });
     });
 
-    $(".dropbtn").click(function(){
+    // Remove items from playlist 
+
+    $(".songs-list").on('click', '.remove-song', function (event){
+        console.log("You clicked the drop down menu to remove!! :)");
+        var removeSong = $(this).parent().parent().parent().parent().parent();
+        var idSong = $(this).parent().parent().parent().siblings(":first").children(":first")[0].dataset.id; // get id of song
+
+        var formData = {
+            idSong: idSong,
+            idPlaylist: data.idPlaylist
+        }
+
+        removeSong.remove();
+        // then refresh dom :) otherwise previously selected li elements don't get de-selected when next song starts
+        window.sm2BarPlayers[0].playlistController.init();
+        window.sm2BarPlayers[0].playlistController.refresh();
+        
+        /*$.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: '/playlistdetails/'+data.idPlaylist,
+            data: formData,
+            type: "DELETE"
+        }).done(function (data) {
+            console.log("ajax response::", data);
+            // Now remove it from the dom
+        }).fail(function () {
+            alert('Song could not be deleted from playlist.');
+        });*/
+    });
+
+    // Toggle playlist
+    $(".songs-list").on('click', '.dropbtn', function (event){
         $(this).next().addClass("showPlaylist");
-	});
+    });
 	
 	window.onclick = function(event) {
 	  if (!event.target.matches('.dropbtn')) {
