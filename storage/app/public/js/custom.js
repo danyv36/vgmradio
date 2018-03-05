@@ -144,20 +144,19 @@ $(document).ready(function () {
     ************************/
 
     // Show and hide user playlist menu:
-
-    $(".songs-list").on('mouseenter', '.sm2-row', function( event ) {
+    $(".songs-list").on('mouseenter', '.sm2-row', function (event) {
         $(this).children(":nth-child(2)").removeClass("dropdown-hidden");
-    }).on('mouseleave', '.sm2-row', function( event ) {
-        if ($(this).children(":nth-child(2)").children(":first").children(":nth-child(2)").hasClass("showPlaylist")){
+    }).on('mouseleave', '.sm2-row', function (event) {
+        if ($(this).children(":nth-child(2)").children(":first").children(":nth-child(2)").hasClass("showPlaylist")) {
             // do nothing if playlist menu is open
-        } 
-        else{
+        }
+        else {
             $(this).children(":nth-child(2)").addClass("dropdown-hidden");
         }
     });
 
     // Add items to playlist 
-    $(".songs-list").on('click', '.playlist-name', function (event){
+    $(".songs-list").on('click', '.playlist-name', function (event) {
         console.log("You clicked the drop down menu!! :)");
         var idPlaylist = $(this)[0].dataset.id; // get id of playlist
         var idSong = $(this).parent().parent().parent().siblings(":first").children(":first")[0].dataset.id; // get id of song
@@ -166,7 +165,7 @@ $(document).ready(function () {
             idSong: idSong,
             idPlaylist: idPlaylist
         }
-        
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -179,63 +178,113 @@ $(document).ready(function () {
             type: "POST"
         }).done(function (data) {
             console.log("ajax response::", data);
+            showNotification("Added to playlist");
         }).fail(function () {
             alert('Playlist detail could not be saved.');
         });
     });
 
     // Remove items from playlist 
-
-    $(".songs-list").on('click', '.remove-song', function (event){
+    $(".songs-list").on('click', '.remove-song', function (event) {
         console.log("You clicked the drop down menu to remove!! :)");
         var removeSong = $(this).parent().parent().parent().parent().parent();
         var idSong = $(this).parent().parent().parent().siblings(":first").children(":first")[0].dataset.id; // get id of song
+        var idPlaylist = $(this)[0].dataset.id; // get id of playlist
 
         var formData = {
             idSong: idSong,
-            idPlaylist: data.idPlaylist
+            idPlaylist: idPlaylist
         }
 
         removeSong.remove();
         // then refresh dom :) otherwise previously selected li elements don't get de-selected when next song starts
         window.sm2BarPlayers[0].playlistController.init();
         window.sm2BarPlayers[0].playlistController.refresh();
-        
-        /*$.ajaxSetup({
+
+        $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
         $.ajax({
-            url: '/playlistdetails/'+data.idPlaylist,
+            url: '/playlistdetails/' + idPlaylist,
             data: formData,
             type: "DELETE"
         }).done(function (data) {
             console.log("ajax response::", data);
             // Now remove it from the dom
         }).fail(function () {
-            alert('Song could not be deleted from playlist.');
-        });*/
+            showNotification("Song could not be removed from playlist");
+        });
+    });
+
+    // Create new playlist
+    $("#new-playlist").on('submit', function (e) {
+        e.preventDefault();
+        console.log("You clicked the create playlist button!! :)");
+        var description = $("#description").val();
+        var name = $("#name").val();
+        var public = $("#public").val();
+        if (public == "on")
+            public = true;
+        else public = false;
+
+        var formData = {
+            idUser: data.idUser,
+            description: description,
+            name: name,
+            public: public
+        }
+
+        console.log(formData);        
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: '/playlists',
+            data: formData,
+            type: "POST"
+        }).done(function (data) {
+            console.log("ajax response::", data);
+            showNotification("Playlist created successfully");
+            $("#playlistModal").modal('hide');
+        }).fail(function () {
+            showNotification("Playlist could not be created");
+            $("#playlistModal").modal('hide');
+        });
     });
 
     // Toggle playlist
-    $(".songs-list").on('click', '.dropbtn', function (event){
+    $(".songs-list").on('click', '.dropbtn', function (event) {
         $(this).next().addClass("showPlaylist");
     });
-	
-	window.onclick = function(event) {
-	  if (!event.target.matches('.dropbtn')) {
 
-		var dropdowns = document.getElementsByClassName("dropdown-content");
-		var i;
-		for (i = 0; i < dropdowns.length; i++) {
-			
-		  var openDropdown = dropdowns[i];
-		  if (openDropdown.classList.contains('showPlaylist')) {
-			openDropdown.classList.remove('showPlaylist');
-		  }
-		}
-	  }
-	}
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('showPlaylist')) {
+                    openDropdown.classList.remove('showPlaylist');
+                }
+            }
+        }
+    }
+
+    function showNotification(message) {
+        $("#notif-snackbar").html(message);
+        var x = document.getElementById("notif-snackbar");
+        x.className = "show";
+        setTimeout(function () {
+            x.className = x.className.replace("show", "");
+        }, 3000);
+    }
 });

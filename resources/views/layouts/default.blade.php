@@ -30,11 +30,9 @@
                                 <li>{{Html::link("/playlists/{$playlist->id}", $playlist->name, $playlist->name, null)}}</li>
                                 <!--li><a href="#">{{ $playlist->name }}</a></li-->
                             @endforeach
-                        @else
-                            <li><a href="#">(no playlists)</a></li>
                         @endif
                         <li class="divider"></li>
-                        <li><a href="#">New playlist</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#playlistModal">New playlist</a></li>
                     </ul>
                 </li>
                 <!--li><a href="/user/playlists"><span class="glyphicon glyphicon-expand"></span> playlists</a></li-->
@@ -48,7 +46,11 @@
     </div>
     </nav>
 
+    @include('playlists.forms.playlist')
+
     @yield('main_content')
+
+    <div id="notif-snackbar">Some text some message..</div>
 
     <script src="{{Storage::url('js/soundmanager-src/script/soundmanager2.js')}}"></script>
     <script src="{{Storage::url('js/bar-ui.js')}}"></script>

@@ -12,7 +12,7 @@
                             <a class="dropbtn sm2-icon sm2-uplaylist sm2-exclude">d</a>
                             <div id="myDropdown" class="dropdown-content">
                                 <a href="javascript:void(null);"  data-id="0" class="remove-song">Remove from playlist</a>
-                                <div>Add to playlist:</div>
+                                <div>Add to playlist</div>
                                 @foreach ($playlists as $playlist)
                                     <a href="javascript:void(null);"  data-id="{{$playlist->id}}" class="playlist-name">{{$playlist->name}}</a>
                                 @endforeach

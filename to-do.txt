@@ -20,16 +20,15 @@ to-do:
 -(done) playlist menu disappears when page changes... (had to change from .mousenter to .on)
 -(done) user playlist page
 -(done) remove from playlist (from playlist page)
--create a new playlist
-	-from navbar
+->create a new playlist
+	-(done) from navbar
 	-from submenu in song list
 -(pending) when wanting to add a song to playlist, it should tell me whether the song is already in said playlist or not
 	-(nope) remove from playlist from here??
 -(done) play from playlist
 -make playlist private or public
-
--user can have a maximum of 20 playlists
--playlist name limited to 40 characters
+-edit playlist name or description
+-add delete playlist button on playlist page
 
 -search bar for main playlist
 
@@ -44,5 +43,10 @@ to-do:
 -add remember me checkbox
 -add forgot password
 
+validation stuff:
+-user can have a maximum of 20 playlists
+-playlist name limited to 40 characters
+
 styling stuff:
 -when the playlist button is pressed, then another one is pressed, both stay open!
+-change more stuff (buttons, hovers, etc) to the blue radio color!!

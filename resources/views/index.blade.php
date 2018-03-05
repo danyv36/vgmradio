@@ -63,7 +63,7 @@
                 </div>
                 <!-- playlist content is mirrored here -->
                 <section class="songs-list">
-                    @include('load')
+                    @include('partial.load')
                 </section>
             </div>
         </div>

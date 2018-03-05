@@ -12,6 +12,7 @@
                         <div class="sm2-col">
                             <a class="dropbtn sm2-icon sm2-uplaylist sm2-exclude">d</a>
                             <div id="myDropdown" class="dropdown-content">
+                                <a href="#" data-toggle="modal" data-target="#playlistModal">New playlist</a>
                                 <div>Add to playlist</div>
                                 @foreach ($playlists as $playlist)
                                     <a href="javascript:void(null);"  data-id="{{$playlist->id}}" class="playlist-name">{{$playlist->name}}</a>

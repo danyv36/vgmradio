@@ -18,7 +18,7 @@ class Playlist extends Authenticatable
      * @var array
      */
     protected $fillable = [ // which fields may be mass assigned
-        'iduser', 'name'
+        'iduser', 'name', 'description', 'public'
     ];
 
     /**

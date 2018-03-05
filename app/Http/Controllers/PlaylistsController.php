@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Setup;
 use App\Song;
 use App\Http\Requests;
+use App\Http\Requests\PlaylistRequest;
+use App\Playlist;
 
 use Auth;
 use JavaScript;
@@ -15,8 +17,18 @@ use Response;
 
 class PlaylistsController extends Controller
 {
-    public function store(Request $request){
+    public function store(PlaylistRequest $request){
         if ($request->ajax()) {
+            $playlist = new Playlist;
+            $playlist->name = $request->name;
+            $playlist->iduser = $request->idUser;
+            $playlist->description = $request->description;
+            $playlist->public = $request->isPublic;
+            $playlist->save();
+            
+            return Response::json(array('status' => 1));
+            //$myreq = $request;
+            //return $myreq;
         }
     }
 
@@ -35,7 +47,6 @@ class PlaylistsController extends Controller
         }
 
         // for stored procedures, have to do pagination this way:
-        //$songs = DB::select('CALL getPlaylistDetails('.$idPlaylist.')');
         $songs = DB::select('CALL getPlaylistDetails('.$idPlaylist.','.$idUser.')');
         $page = Input::get('page', 1);
         $paginate = 15;
