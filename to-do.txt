@@ -9,8 +9,6 @@ to-do:
 	-(done) check if the liked/disliked song already exists, then insert/updated/delete based on that :D
 	-error handling for when can't save to DB
 -(done) when loading playlist, likes and dislikes are loaded as well
--when user clicks on dislike, skip it
-
 -(done) change how likes/dislikes are saved to DB (using data-id instead)
 
 -(done) load playlists in menu at top
@@ -22,8 +20,8 @@ to-do:
 -(done) remove from playlist (from playlist page)
 ->create a new playlist
 	-(done) from navbar
-	-from submenu in song list
--(pending) when wanting to add a song to playlist, it should tell me whether the song is already in said playlist or not
+	-(done)from submenu in song list
+-(nope) when wanting to add a song to playlist, it should tell me whether the song is already in said playlist or not
 	-(nope) remove from playlist from here??
 -(done) play from playlist
 -make playlist private or public
@@ -33,6 +31,9 @@ to-do:
 -search bar for main playlist
 
 -relaxing playlist at the top
+
+-when user clicks on dislike, skip it
+-when user removes song from playlist, remove it from the soundmanager dom as well! >;)
 
 -user form registration
 -request song form

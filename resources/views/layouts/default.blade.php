@@ -25,14 +25,7 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">playlists <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        @if ($playlists->count())
-                            @foreach ($playlists as $playlist)
-                                <li>{{Html::link("/playlists/{$playlist->id}", $playlist->name, $playlist->name, null)}}</li>
-                                <!--li><a href="#">{{ $playlist->name }}</a></li-->
-                            @endforeach
-                        @endif
-                        <li class="divider"></li>
-                        <li><a href="#" data-toggle="modal" data-target="#playlistModal">New playlist</a></li>
+                        @include('partial.playlists')
                     </ul>
                 </li>
                 <!--li><a href="/user/playlists"><span class="glyphicon glyphicon-expand"></span> playlists</a></li-->

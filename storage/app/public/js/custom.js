@@ -76,7 +76,9 @@ $(document).ready(function () {
         } //onready
     });
 
-    // for pagination :
+    /***********************
+       PAGINATION
+    ************************/
     $(function () {
         $('body').on('click', '.pagination a', function (e) {
             e.preventDefault();
@@ -112,8 +114,9 @@ $(document).ready(function () {
                     window.sm2BarPlayers[0].playlistController.init();
                     window.sm2BarPlayers[0].playlistController.refresh();
                 }
-            }).fail(function () {
+            }).fail(function (err) {
                 alert('Songs could not be loaded.');
+                console.log("Error::", err);
             });
         }
     });
@@ -134,8 +137,9 @@ $(document).ready(function () {
             type: "POST"
         }).done(function (data) {
             console.log("ajax response::", data);
-        }).fail(function () {
-            alert('Like could not be saved.');
+        }).fail(function (err) {
+            showNotification('Like could not be saved.');
+            console.log("Error::", err);
         });
     }
 
@@ -158,8 +162,9 @@ $(document).ready(function () {
     // Add items to playlist 
     $(".songs-list").on('click', '.playlist-name', function (event) {
         console.log("You clicked the drop down menu!! :)");
+        console.log($(this));
         var idPlaylist = $(this)[0].dataset.id; // get id of playlist
-        var idSong = $(this).parent().parent().parent().siblings(":first").children(":first")[0].dataset.id; // get id of song
+        var idSong = $(this).parent().parent().parent().parent().siblings(":first").children(":first")[0].dataset.id; // get id of song
 
         var formData = {
             idSong: idSong,
@@ -179,8 +184,9 @@ $(document).ready(function () {
         }).done(function (data) {
             console.log("ajax response::", data);
             showNotification("Added to playlist");
-        }).fail(function () {
-            alert('Playlist detail could not be saved.');
+        }).fail(function (err) {
+            showNotification('Could not add song to playlist');
+            console.log("Error::", err);
         });
     });
 
@@ -213,9 +219,11 @@ $(document).ready(function () {
             type: "DELETE"
         }).done(function (data) {
             console.log("ajax response::", data);
+            showNotification("Song removed from playlist");
             // Now remove it from the dom
-        }).fail(function () {
+        }).fail(function (err) {
             showNotification("Song could not be removed from playlist");
+            console.log("Error::", err);
         });
     });
 
@@ -250,11 +258,19 @@ $(document).ready(function () {
             data: formData,
             type: "POST"
         }).done(function (data) {
-            console.log("ajax response::", data);
+            //console.log("ajax response::", data.htmlInline);
             showNotification("Playlist created successfully");
             $("#playlistModal").modal('hide');
-        }).fail(function () {
+            $('.dropdown-menu').html(data.html);
+            $('.playlists-list').html(data.htmlInline);
+
+            // clear the values in the inputs
+            $("#description").val("");
+            $("#name").val("");
+            $("#public").prop('checked', false);
+        }).fail(function (err) {
             showNotification("Playlist could not be created");
+            console.log("Error::", err);
             $("#playlistModal").modal('hide');
         });
     });

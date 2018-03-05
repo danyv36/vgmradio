@@ -41,7 +41,7 @@ class SongsController extends Controller
             $playlists = DB::table('playlists')->where('iduser', $idUser)->get();
 
         if ($request->ajax()) {
-            return view('load')->withSongs($songs)->with('songFolder', $setup)->with('playlists', $playlists)->render();
+            return view('partial.load')->withSongs($songs)->with('songFolder', $setup)->with('playlists', $playlists)->render();
         }
         return view('index')->withSongs($songs)->with('songFolder', $setup)->with('playlists', $playlists);
         //return $playlists;

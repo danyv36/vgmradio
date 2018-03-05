@@ -25,10 +25,16 @@ class PlaylistsController extends Controller
             $playlist->description = $request->description;
             $playlist->public = $request->isPublic;
             $playlist->save();
+
+            $idUser = $request -> idUser;
             
-            return Response::json(array('status' => 1));
-            //$myreq = $request;
-            //return $myreq;
+            if ($idUser > 0)
+                $playlists = DB::table('playlists')->where('iduser', $idUser)->get();
+            //return view('partial.playlists')->with('playlists', $playlists)->render();
+
+            $view = view('partial.playlists')->with('playlists', $playlists)->render();
+            $viewinline = view('partial.playlistsinline')->with('playlists', $playlists)->render();
+            return Response::json(array('html' => $view, 'htmlInline' => $viewinline));
         }
     }
 
