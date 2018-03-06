@@ -69,4 +69,8 @@ class PlaylistsController extends Controller
         }
         return view('playlists/show')->withSongs($songs)->with('songFolder', $setup)->with('playlists', $playlists);
     }
+
+    public function update(Request $request){
+        
+    }
 }

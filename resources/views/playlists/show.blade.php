@@ -1,8 +1,18 @@
 @extends('layouts.default')
 @section('main_content')
-    <div id="content">
+    <div class="container-fluid">
         <div class="page-header">
             <h2>{{$songs[0]->playlistName}}</h2>
+            <a href="#" id="edit-playlist" data-toggle="modal" data-target="#playlistModal">
+                <span class="glyphicon glyphicon-pencil" style="margin-left:5px"></span>
+            </a>
+            <div class="playlist-info">
+                @if (is_null($songs[0]->description))
+                <p class="description">My playlist</p>
+                @else
+                <p class="description">{{ $songs[0]->description}}</p>
+                @endif
+            </div>
         </div>
         <div class="sm2-bar-ui large flat dark-text playlist-open" id="player-wrap">
             <div class="bd sm2-playlist">
@@ -71,5 +81,6 @@
             </div>
         </div>
     </div>
+    @include('playlists.forms.update')
     @include('footer')
     @stop
