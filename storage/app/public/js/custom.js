@@ -76,9 +76,9 @@ $(document).ready(function () {
         } //onready
     });
 
-    /***********************
-       PAGINATION
-    ************************/
+    //********************************************//
+    //                Pagination                  //
+    //********************************************//
     $(function () {
         $('body').on('click', '.pagination a', function (e) {
             e.preventDefault();
@@ -121,7 +121,9 @@ $(document).ready(function () {
         }
     });
 
-    // save likes and dislikes
+    //********************************************//
+    //         Save likes and dislikes            //
+    //********************************************//
     function saveLikes(formData) {
 
         console.log("formData::", formData);
@@ -144,10 +146,16 @@ $(document).ready(function () {
     }
 
     /***********************
+     * 
+     * 
         USER PLAYLIST
+     *
+     * 
     ************************/
 
-    // Show and hide user playlist menu:
+    //********************************************//
+    //     Show and hide user playlist menu       //
+    //********************************************//
     $(".songs-list").on('mouseenter', '.sm2-row', function (event) {
         $(this).children(":nth-child(2)").removeClass("dropdown-hidden");
     }).on('mouseleave', '.sm2-row', function (event) {
@@ -159,7 +167,9 @@ $(document).ready(function () {
         }
     });
 
-    // Add items to playlist 
+    //********************************************//
+    //          Add items to playlist             //
+    //********************************************//
     $(".songs-list").on('click', '.playlist-name', function (event) {
         console.log("You clicked the drop down menu!! :)");
         console.log($(this));
@@ -190,7 +200,9 @@ $(document).ready(function () {
         });
     });
 
-    // Remove items from playlist 
+    //********************************************//
+    //        Remove items from playlist          //
+    //********************************************//
     $(".songs-list").on('click', '.remove-song', function (event) {
         console.log("You clicked the drop down menu to remove!! :)");
         var removeSong = $(this).parent().parent().parent().parent().parent();
@@ -227,7 +239,9 @@ $(document).ready(function () {
         });
     });
 
-    // Create new playlist
+    //********************************************//
+    //             Create new playlist            //
+    //********************************************//
     $("#new-playlist").on('submit', function (e) {
         e.preventDefault();
         console.log("You clicked the create playlist button!! :)");
@@ -235,8 +249,8 @@ $(document).ready(function () {
         var name = $("#name").val();
         var public = $("#public").val();
         if (public == "on")
-            public = true;
-        else public = false;
+            public = 1;
+        else public = 0;
 
         var formData = {
             idUser: data.idUser,
@@ -275,7 +289,60 @@ $(document).ready(function () {
         });
     });
 
-    // Toggle playlist
+    //********************************************//
+    //             Update playlist                //
+    //********************************************//
+    $("#edit-playlist").on('submit', function (e) {
+        e.preventDefault();
+        console.log("You clicked the edit playlist button!! :)");
+        var description = $("#edit-desc").val();
+        var name = $("#edit-name").val();
+        var idPlaylist = $("#id-playlist").val();
+        //var checkbox = $("#edit-public").attr("checked");
+        var public;
+        //console.log("checkbox::", checkbox);
+        if ($("#edit-public").is(':checked'))
+            public = 1;
+        else public = 0;
+        var url = "/playlists/"+idPlaylist;
+
+        var formData = {
+            idPlaylist: idPlaylist,
+            idUser: data.idUser,
+            description: description,
+            name: name,
+            public: public
+        }
+
+        console.log(formData);
+        console.log("url::", url);
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: url,
+            data: formData,
+            type: "PUT"
+        }).done(function (data) {
+            //console.log("ajax response::", data.htmlHeader);
+            $("#edit-playlist-modal").modal('hide');
+            $('.dropdown-menu').html(data.html);
+            $('.playlists-list').html(data.htmlInline);
+            $('.page-header').html(data.htmlHeader);
+            showNotification("Playlist information updated successfully");
+        }).fail(function (err) {
+            showNotification("Playlist information could not be updated");
+            console.log("Error::", err);
+        });
+    });
+
+    //********************************************//
+    //             Toggle playlist                //
+    //********************************************//
     $(".songs-list").on('click', '.dropbtn', function (event) {
         $(this).next().addClass("showPlaylist");
     });

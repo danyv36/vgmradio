@@ -13,9 +13,9 @@
                             <div id="myDropdown" class="dropdown-content">
                                 <a href="javascript:void(null);"  data-id="0" class="remove-song">Remove from playlist</a>
                                 <div>Add to playlist</div>
-                                @foreach ($playlists as $playlist)
-                                    <a href="javascript:void(null);"  data-id="{{$playlist->id}}" class="playlist-name">{{$playlist->name}}</a>
-                                @endforeach
+                                <section class="playlists-list">
+                                    @include('partial.playlistsinline')
+                                </section>
                             </div>
                         </div>
                     </div>

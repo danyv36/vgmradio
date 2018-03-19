@@ -18,14 +18,14 @@ to-do:
 -(done) playlist menu disappears when page changes... (had to change from .mousenter to .on)
 -(done) user playlist page
 -(done) remove from playlist (from playlist page)
-->create a new playlist
+-(done) create a new playlist
 	-(done) from navbar
 	-(done)from submenu in song list
 -(nope) when wanting to add a song to playlist, it should tell me whether the song is already in said playlist or not
 	-(nope) remove from playlist from here??
 -(done) play from playlist
--make playlist private or public
--edit playlist name or description
+-(done) make playlist private or public
+-(done) edit playlist name or description
 -add delete playlist button on playlist page
 
 -search bar for main playlist
