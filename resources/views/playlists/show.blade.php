@@ -72,5 +72,6 @@
         </div>
     </div>
     @include('playlists.forms.update')
+    @include('playlists.forms.delete')
     @include('footer')
     @stop

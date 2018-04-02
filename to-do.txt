@@ -26,11 +26,9 @@ to-do:
 -(done) play from playlist
 -(done) make playlist private or public
 -(done) edit playlist name or description
--add delete playlist button on playlist page
+-(done)add delete playlist button on playlist page
 
 -search bar for main playlist
-
--relaxing playlist at the top
 
 -when user clicks on dislike, skip it
 -when user removes song from playlist, remove it from the soundmanager dom as well! >;)
@@ -39,15 +37,21 @@ to-do:
 -request song form
 -(pending) if user is guest, use cookies to remember likes and dislikes
 
--verify that the username doesn't already exist when registering
 -when logging in, if incorrect, display errors
 -add remember me checkbox
 -add forgot password
 
 validation stuff:
+-verify that the username doesn't already exist when registering
 -user can have a maximum of 20 playlists
 -playlist name limited to 40 characters
+-trying to edit a playlist that isn't from the user's
+-trying to access a playlist id that doesn't exist
+-trying to access a playlist that isn't public
 
 styling stuff:
 -when the playlist button is pressed, then another one is pressed, both stay open!
+-when user accesses a playlist and there are no songs, show "no songs in this playlist" message or something
 -change more stuff (buttons, hovers, etc) to the blue radio color!!
+
+-relaxing playlist at the top

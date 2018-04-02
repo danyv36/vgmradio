@@ -4,6 +4,12 @@ $(document).ready(function () {
         console.log("window.idUser::", data.idUser);
     }
 
+    // See if there is any message to show from the snackbar as page is loading
+    var msg = $("#notif-snackbar").text();
+    if (msg != "-1"){
+        showNotification(msg);
+    }
+
     $(".sm2-dislike, .sm2-disliked").click(function () {
         console.log("disliked clicked!");
         var likeButton = $(this).parent().prev().children();
@@ -247,8 +253,8 @@ $(document).ready(function () {
         console.log("You clicked the create playlist button!! :)");
         var description = $("#description").val();
         var name = $("#name").val();
-        var public = $("#public").val();
-        if (public == "on")
+        var public;
+        if ($("#public").is(':checked'))
             public = 1;
         else public = 0;
 
@@ -298,9 +304,7 @@ $(document).ready(function () {
         var description = $("#edit-desc").val();
         var name = $("#edit-name").val();
         var idPlaylist = $("#id-playlist").val();
-        //var checkbox = $("#edit-public").attr("checked");
         var public;
-        //console.log("checkbox::", checkbox);
         if ($("#edit-public").is(':checked'))
             public = 1;
         else public = 0;
@@ -339,6 +343,49 @@ $(document).ready(function () {
             console.log("Error::", err);
         });
     });
+
+    //********************************************//
+    //             Delete playlist                //
+    //********************************************//
+    /*$("#delete-playlist").on('submit', function (e) {
+        e.preventDefault();
+        console.log("You clicked the delete playlist button!! :o");
+        var idPlaylist = $("#id-playlist").val();
+        //var checkbox = $("#edit-public").attr("checked");
+        var public;
+        //console.log("checkbox::", checkbox);
+        if ($("#edit-public").is(':checked'))
+            public = 1;
+        else public = 0;
+        var url = "/playlists/"+idPlaylist;
+
+        var formData = {
+            idPlaylist: idPlaylist,
+            idUser: data.idUser,
+            _method: "delete"
+        }
+
+        console.log(formData);
+        console.log("url::", url);
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: url,
+            data: formData,
+            type: "POST"
+        }).done(function (data) {
+            console.log("ajax response::", data);
+            showNotification("Playlist deleted");
+        }).fail(function (err) {
+            showNotification("Playlist could not be deleted");
+            console.log("Error::", err);
+        });
+    });*/
 
     //********************************************//
     //             Toggle playlist                //

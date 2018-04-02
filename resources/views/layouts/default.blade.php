@@ -42,8 +42,13 @@
     @include('playlists.forms.create')
 
     @yield('main_content')
-
-    <div id="notif-snackbar">Some text some message..</div>
+    
+    <!-- See if there is a message to show -->
+    @if (is_null(session()->get('msg')))
+        <div id="notif-snackbar">-1</div>
+    @else
+        <div id="notif-snackbar">{{session()->get('msg')}}</div>
+    @endif
 
     <script src="{{Storage::url('js/soundmanager-src/script/soundmanager2.js')}}"></script>
     <script src="{{Storage::url('js/bar-ui.js')}}"></script>

@@ -1,8 +1,8 @@
-  <!-- Modal -->
-  <div class="modal fade" id="edit-playlist-modal" role="dialog">
+<!-- Update Playlist Modal -->
+<div class="modal fade" id="edit-playlist-modal" role="dialog">
     <div class="modal-dialog">
 
-      <!-- Modal content-->
+      <!-- Update Playlist Modal content-->
       <div class="modal-content">
       {!! Form::open(['route' => ['playlists.update',$songs[0]->idPlaylist], 'method' => 'PUT', 'id'=>'edit-playlist']) !!}
         <div class="modal-header">

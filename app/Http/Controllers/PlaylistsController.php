@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Input;
 use JavaScript;
 use Response;
+use Redirect;
 
 class PlaylistsController extends Controller
 {
@@ -65,9 +66,17 @@ class PlaylistsController extends Controller
         }
 
         if ($request->ajax()) {
-            return view('playlists/songlist')->withSongs($songs)->with('songFolder', $setup)->with('playlists', $playlists)->render();
+            return view('playlists/songlist')->withSongs($songs)
+                    ->with('songFolder', $setup)
+                    ->with('playlists', $playlists)
+                    ->with('msg', '-1')
+                    ->render();
         }
-        return view('playlists/show')->withSongs($songs)->with('songFolder', $setup)->with('playlists', $playlists);
+        return view('playlists/show')->withSongs($songs)
+                ->with('songFolder', $setup)
+                ->with('playlists', $playlists)
+                ->with('msg', '-1')
+                ;
     }
 
     public function update(Request $request)
@@ -98,5 +107,19 @@ class PlaylistsController extends Controller
             $viewheader = view('playlists.partial.header')->with('songs', $songs)->render();
             return Response::json(array('html' => $view, 'htmlInline' => $viewinline, 'htmlHeader' => $viewheader));
         }
+    }
+
+    public function destroy(Request $request, $playlist){
+        /*if ($request->ajax()) {
+            //$playlist = Playlist::find($request->idPlaylist);
+            //$playlist->delete();
+
+            return Redirect::route('home')->with('msg', 'Playlist successfully deleted');
+        }*/
+
+        $deletePlaylist = Playlist::find($playlist);
+        $deletePlaylist->delete();
+        $msg = 'Playlist successfully deleted';
+        return Redirect::route('home')->with('msg', $msg);
     }
 }
