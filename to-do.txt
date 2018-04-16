@@ -28,7 +28,7 @@ to-do:
 -(done) edit playlist name or description
 -(done)add delete playlist button on playlist page
 
--search bar for main playlist
+->search bar for main playlist
 
 -when user clicks on dislike, skip it
 -when user removes song from playlist, remove it from the soundmanager dom as well! >;)
@@ -53,5 +53,13 @@ styling stuff:
 -when the playlist button is pressed, then another one is pressed, both stay open!
 -when user accesses a playlist and there are no songs, show "no songs in this playlist" message or something
 -change more stuff (buttons, hovers, etc) to the blue radio color!!
+-icons show all weird
+
+error-handling!! try/catch for every database operation
+
+admin pages:
+-upload a song
+-edit a song
+-delete a song
 
 -relaxing playlist at the top

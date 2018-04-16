@@ -1,12 +1,13 @@
 @extends('layouts.default')
-@section('main_content')  
-    <div id="content">
+@section('main_content')
+<div class="container">
+    <div id="content">    
         <div class="sm2-bar-ui large flat dark-text playlist-open" id="player-wrap">
             <div class="bd sm2-playlist">
                 <div class="sm2-playlist-target">
                     <div class="now-playing">
                         <div class="left">
-                            <img src="{{Storage::url('images/ost/xenoblade_chronicles_x.jpg')}}" style="width:100%" id="track-img" />
+                            <img src="{{Storage::url('images/ost/xenoblade_chronicles_x.jpg')}}" id="track-img" />
                         </div>
                         <div class="right">
                             <div class="title" id="song-name">Noctilum</div>
@@ -70,4 +71,3 @@
     </div>
     @include('footer')
     @stop
-

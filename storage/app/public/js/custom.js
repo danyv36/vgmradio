@@ -4,11 +4,21 @@ $(document).ready(function () {
         console.log("window.idUser::", data.idUser);
     }
 
-    // See if there is any message to show from the snackbar as page is loading
-    var msg = $("#notif-snackbar").text();
-    if (msg != "-1"){
-        showNotification(msg);
-    }
+    soundManager.setup({
+        url: 'soundmanager-src/swf',
+        flashVersion: 9, // optional: shiny features (default = 8)
+        waitForWindowLoad: true,
+        debugMode: false,
+        // optional: ignore Flash where possible, use 100% HTML5 mode
+        preferFlash: false,
+        onready: function () {
+            //var playlist = window.sm2BarPlayers[0].dom.playlist.children;
+            window.sm2BarPlayers[0].playlistController.setCurrPage(1);
+            window.sm2BarPlayers[0].playlistController.setSelectedPage(1);
+            window.sm2BarPlayers[0].playlistController.setPageSwitch(false);
+            console.log("sm2Player ready");
+        } //onready
+    });
 
     $(".sm2-dislike, .sm2-disliked").click(function () {
         console.log("disliked clicked!");
@@ -66,21 +76,54 @@ $(document).ready(function () {
         saveLikes(formData);
     });
 
-    soundManager.setup({
-        url: 'soundmanager-src/swf',
-        flashVersion: 9, // optional: shiny features (default = 8)
-        waitForWindowLoad: true,
-        debugMode: false,
-        // optional: ignore Flash where possible, use 100% HTML5 mode
-        preferFlash: false,
-        onready: function () {
-            //var playlist = window.sm2BarPlayers[0].dom.playlist.children;
-            window.sm2BarPlayers[0].playlistController.setCurrPage(1);
-            window.sm2BarPlayers[0].playlistController.setSelectedPage(1);
-            window.sm2BarPlayers[0].playlistController.setPageSwitch(false);
-            console.log("sm2Player ready");
-        } //onready
+    //********************************************//
+    //           Search main playlist             //
+    //********************************************//
+
+    $("#game-search").click(function(){
+        $("#song-search").removeClass("active");
+        $(this).addClass("active");
+        $("input[name='searchby']").val("game");
     });
+
+    $("#song-search").click(function(){
+        $("#game-search").removeClass("active");
+        $(this).addClass("active");
+        $("input[name='searchby']").val("song");
+    });
+
+    /*$("#search-form").on('submit', function (e) {
+        e.preventDefault();
+        console.log("You clicked the search playlist button!! :)");
+        var searchBy = "game";
+        if ($("#song-search").hasClass("active")) searchBy = "song";
+        const searchString =  $("#search-string").val();
+
+        var formData = {
+            idUser: data.idUser,
+            searchBy: searchBy,
+            searchString: searchString
+        }
+
+        console.log("search playlist formData::", formData);        
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: '/search',
+            data: formData,
+            type: "POST"
+        }).done(function (data) {
+            console.log("ajax response::", data);
+        }).fail(function (err) {
+            showNotification("Search could not be completed");
+            console.log("Error::", err);
+        });
+    });*/
 
     //********************************************//
     //                Pagination                  //
@@ -130,6 +173,7 @@ $(document).ready(function () {
     //********************************************//
     //         Save likes and dislikes            //
     //********************************************//
+    
     function saveLikes(formData) {
 
         console.log("formData::", formData);
@@ -153,9 +197,7 @@ $(document).ready(function () {
 
     /***********************
      * 
-     * 
         USER PLAYLIST
-     *
      * 
     ************************/
 
@@ -345,49 +387,6 @@ $(document).ready(function () {
     });
 
     //********************************************//
-    //             Delete playlist                //
-    //********************************************//
-    /*$("#delete-playlist").on('submit', function (e) {
-        e.preventDefault();
-        console.log("You clicked the delete playlist button!! :o");
-        var idPlaylist = $("#id-playlist").val();
-        //var checkbox = $("#edit-public").attr("checked");
-        var public;
-        //console.log("checkbox::", checkbox);
-        if ($("#edit-public").is(':checked'))
-            public = 1;
-        else public = 0;
-        var url = "/playlists/"+idPlaylist;
-
-        var formData = {
-            idPlaylist: idPlaylist,
-            idUser: data.idUser,
-            _method: "delete"
-        }
-
-        console.log(formData);
-        console.log("url::", url);
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $.ajax({
-            url: url,
-            data: formData,
-            type: "POST"
-        }).done(function (data) {
-            console.log("ajax response::", data);
-            showNotification("Playlist deleted");
-        }).fail(function (err) {
-            showNotification("Playlist could not be deleted");
-            console.log("Error::", err);
-        });
-    });*/
-
-    //********************************************//
     //             Toggle playlist                //
     //********************************************//
     $(".songs-list").on('click', '.dropbtn', function (event) {
@@ -407,6 +406,16 @@ $(document).ready(function () {
                 }
             }
         }
+    }
+
+    //********************************************//
+    //                Snackbar                    //
+    //********************************************//
+
+    // See if there is any message to show from the snackbar as page is loading
+    var msg = $("#notif-snackbar").text();
+    if (msg != "-1"){
+        showNotification(msg);
     }
 
     function showNotification(message) {

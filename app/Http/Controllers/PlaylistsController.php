@@ -116,10 +116,14 @@ class PlaylistsController extends Controller
 
             return Redirect::route('home')->with('msg', 'Playlist successfully deleted');
         }*/
-
-        $deletePlaylist = Playlist::find($playlist);
-        $deletePlaylist->delete();
-        $msg = 'Playlist successfully deleted';
-        return Redirect::route('home')->with('msg', $msg);
+        try{
+            $deletePlaylist = Playlist::find($playlist);
+            $deletePlaylist->delete();
+            $msg = 'Playlist successfully deleted';
+            return Redirect::route('home')->with('msg', $msg);
+        }
+        catch(Exception $e){
+            return Redirect::route('home')->with('msg', 'Sorry, something went wrong. Please try again.');
+        }
     }
 }

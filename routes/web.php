@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'SongsController@home')->name('home');
+Route::post('/search', 'SongsController@search2')->name('search');
 Route::resource('users', 'UsersController');
 Route::resource('sessions', 'SessionsController');
 Route::resource('likes', 'LikesController');

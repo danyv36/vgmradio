@@ -51,6 +51,61 @@ class SongsController extends Controller
                 ->with('songFolder', $setup)
                 ->with('playlists', $playlists)
                 ->with('msg', '-1');
-        //return $playlists;
+    }
+
+    public function search(Request $request){
+        $playlists = 0;
+        $setup = Setup::where('key', '=', 'songs_folder')->first();
+        if ($request->ajax()) {
+            $idUser = $request->idUser;
+            $searchString = '%'.$request->searchString.'%';
+            $songs = DB::select("CALL searchSongs('".$request->searchBy . "','" . $searchString . "'," . $idUser.")");
+            $page = Input::get('page', 1);  
+            $paginate = 15;  
+            $offSet = ($page * $paginate) - $paginate;  
+            $itemsForCurrentPage = array_slice($songs, $offSet, $paginate, true);  
+            $songs = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($songs), $paginate, $page);
+
+            // get user playlists
+            if ($idUser > 0)
+                $playlists = DB::table('playlists')->where('iduser', $idUser)->get();
+            
+            return view('partial.load')->withSongs($songs)
+                ->with('songFolder', $setup)
+                ->with('playlists', $playlists)
+                ->with('msg', '-1')
+                ->render();
+        }
+    }
+
+    public function search2(){
+        if (Auth::check()){
+            $idUser = Auth::user()->id;
+        }
+        $searchBy = Input::get('searchby');
+        $searchString = Input::get('searchstring');
+
+        // check if request is empty or not; if empty, redirect to index
+        $playlists = 0;
+        $setup = Setup::where('key', '=', 'songs_folder')->first();
+        $searchString = '%'.$searchString.'%';
+        $query = "CALL searchSongs('".$searchBy . "','" . $searchString . "'," . $idUser.")";
+        
+        $songs = DB::select($query);
+        $page = Input::get('page', 1);  
+        $paginate = 15;
+        $offSet = ($page * $paginate) - $paginate;
+        $itemsForCurrentPage = array_slice($songs, $offSet, $paginate, true);
+        $songs = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($songs), $paginate, $page);
+
+        // get user playlists
+        if ($idUser > 0)
+            $playlists = DB::table('playlists')->where('iduser', $idUser)->get();
+            
+        return view('index')->withSongs($songs)
+            ->with('songFolder', $setup)
+            ->with('playlists', $playlists)
+            ->with('msg', '-1');
+            
     }
 }

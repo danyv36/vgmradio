@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -13,10 +14,8 @@
         <a class="navbar-brand" href="#">video game music <span id="radio">rad.io</span></a>
     </div>
     <ul class="nav navbar-nav">
-        <li class="active"><a href="/">home</a></li>
-        <li><a href="#">about</a></li>
-        <li><a href="#">contact</a></li>
         <li><a href="#">request a song</a></li>
+        @include('partial.search')
     </ul>
     <ul class="nav navbar-nav navbar-right">
         @if (Route::has('login'))

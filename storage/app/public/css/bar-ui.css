@@ -1078,11 +1078,11 @@ CUSTOM STYLES
  }
 
  .left{
-  width: 20%;
+  width: 15%;
  }
 
  .right{
-   width:80%;
+   width:85%;
  }
 
  .now-playing{
@@ -1093,6 +1093,10 @@ CUSTOM STYLES
   content: "";
   display: table;
   clear: both;
+}
+
+#track-img{
+  width: 100%;
 }
 
 .title{
