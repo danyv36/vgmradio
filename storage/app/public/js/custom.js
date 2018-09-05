@@ -92,12 +92,13 @@ $(document).ready(function () {
         $("input[name='searchby']").val("song");
     });
 
-    /*$("#search-form").on('submit', function (e) {
+    $("#search-form").on('submit', function (e) {
         e.preventDefault();
         console.log("You clicked the search playlist button!! :)");
         var searchBy = "game";
         if ($("#song-search").hasClass("active")) searchBy = "song";
         const searchString =  $("#search-string").val();
+        const url = '/search?searchBy='+searchBy+'&searchString='+searchString;
 
         var formData = {
             idUser: data.idUser,
@@ -114,16 +115,16 @@ $(document).ready(function () {
         });
 
         $.ajax({
-            url: '/search',
+            url: url,
             data: formData,
-            type: "POST"
+            type: "GET"
         }).done(function (data) {
             console.log("ajax response::", data);
         }).fail(function (err) {
             showNotification("Search could not be completed");
             console.log("Error::", err);
         });
-    });*/
+    });
 
     //********************************************//
     //                Pagination                  //

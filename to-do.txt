@@ -1,3 +1,6 @@
+-migrate stored procedures
+-migrate .env file
+
 to-do:
 -(done) fix ajax issue with ost img not changing
 -(done) fix tracks staying selected
@@ -54,6 +57,8 @@ styling stuff:
 -when user accesses a playlist and there are no songs, show "no songs in this playlist" message or something
 -change more stuff (buttons, hovers, etc) to the blue radio color!!
 -icons show all weird
+-playlist menu in the playlist itself is different from the playlist at the top bar
+-fix the styling of the
 
 error-handling!! try/catch for every database operation
 

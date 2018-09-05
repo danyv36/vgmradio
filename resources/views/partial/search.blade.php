@@ -1,4 +1,4 @@
-{!! Form::open(['route' => 'search', 'id'=>'search-form', 'class'=>'navbar-form navbar-left']) !!}
+{!! Form::open(['route' => 'search', 'id'=>'search-form', 'class'=>'navbar-form navbar-left', 'method' => 'GET']) !!}
     <div class="input-group">
       <input type="text" id="search-string" name="searchstring" class="form-control" placeholder="Search" name="search" size="40">
       <div class="input-group-btn">

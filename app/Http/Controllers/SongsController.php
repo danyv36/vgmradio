@@ -10,6 +10,7 @@ use App\Song;
 use Auth;
 use JavaScript;
 use Input;
+use Response;
 
 class SongsController extends Controller
 {
@@ -82,8 +83,8 @@ class SongsController extends Controller
         if (Auth::check()){
             $idUser = Auth::user()->id;
         }
-        $searchBy = Input::get('searchby');
-        $searchString = Input::get('searchstring');
+        $searchBy = Input::get('searchBy');
+        $searchString = Input::get('searchString');
 
         // check if request is empty or not; if empty, redirect to index
         $playlists = 0;
@@ -102,10 +103,12 @@ class SongsController extends Controller
         if ($idUser > 0)
             $playlists = DB::table('playlists')->where('iduser', $idUser)->get();
             
-        return view('index')->withSongs($songs)
+        /*return view('index')->withSongs($songs)
             ->with('songFolder', $setup)
             ->with('playlists', $playlists)
-            ->with('msg', '-1');
+            ->with('msg', '-1');*/
+
+        return Response::json(array('response' => $songs));
             
     }
 }
