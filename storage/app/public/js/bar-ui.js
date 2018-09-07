@@ -161,7 +161,7 @@
       }
       //console.log("item titlearr::", item);
       var titleArr = item.innerText.split("-");
-      console.log("titleArr::", titleArr);
+      //console.log("titleArr::", titleArr);
       var game = titleArr[0].trim();
       game = game.substring(0, game.length);
       var song = titleArr[1].trim();
@@ -220,12 +220,12 @@
         onplay: function () {
           utils.css.swap(dom.o, 'paused', 'playing');
           var item = playlistController.getItem();
-          console.log("debug::item on play", item);
+          // console.log("debug::item on play", item);
           // TODO: the reason that the image will not match the picture until after the second click is 
           // probably because init and refresh don't have callbacks...
           //console.log("item:::", item);
           var trackImg = item.childNodes[1].childNodes[1].childNodes[1].attributes[2].value; //data-src attribute
-          console.log("admin:trying to get the imgsrc::::::", trackImg);
+          // console.log("admin:trying to get the imgsrc::::::", trackImg);
           // TODO: don't have the storage hardcoded??
           $('#track-img').attr('src', '/storage/images/ost/' + trackImg);
           callback('play', this);
@@ -317,15 +317,21 @@
           dom.progress.style.left = '0%';
 
           lastIndex = playlistController.data.selectedIndex;
+          console.log("lastIndex::", lastIndex);
 
           callback('finish', this);
 
           // next track?
-          console.log("Explained: getting next track");
+          //console.log("Explained: getting next track");
           item = playlistController.getNext();
+          var skipFinalSong = false;
+
+          if (playlistController.data.selectedIndex == playlistController.data.playlist.length-1 && playlistController.data.disliked)
+            skipFinalSong = true;
 
           // don't play the same item over and over again, if at end of playlist (excluding single item case.)
-          if (item && (playlistController.data.selectedIndex !== lastIndex || (playlistController.data.playlist.length === 1 && playlistController.data.loopMode))) {
+          if (item && ((playlistController.data.selectedIndex !== lastIndex) || (playlistController.data.playlist.length === 1 && playlistController.data.loopMode))
+              && !skipFinalSong) {
 
             playlistController.select(item);
 
@@ -340,13 +346,13 @@
 
           } else {
 
-            console.log("explained:::reached end of playable items on page");
+            console.log("Reached end of playable items on page");
             // admin:: go to next page of the current played page, not the one the user selected
             //var currPage = $('ul.pagination').children(".active").children().text();
             var currPage = dom.currPage;
             // TODO: verify currPage is int; don't hardcode the URL...
             var nextPage = parseInt(currPage) + 1;
-            var url = "http://localhost:8000?page=" + nextPage;
+            var url = "http://127.0.0.1:8000?page=" + nextPage;
             // TODO: check if nextPage is available first :y
             console.log("nextPage::", nextPage);
 
@@ -455,7 +461,7 @@
 
       function getItem(offset) {
 
-        console.log("debug::calling getItem");
+        // console.log("debug::calling getItem");
 
         var list,
           item;
@@ -514,21 +520,27 @@
         if (data.selectedIndex !== null) {
           data.selectedIndex++;
           // check if the logged in user disliked it or not
-          /*var dislikeButton;
+          var dislikeButton;
           try{
             dislikeButton = data.playlist[data.selectedIndex].children[0].children[3].children[0];
             if (dislikeButton.classList.contains('sm2-disliked')){
               console.log('Skipping disliked song.');
+              data.disliked = true;
               getNext();
             }
+            else data.disliked = false;
+            
           }
           catch(e){
             console.log('Error checking for dislikes:', e.message);
-          }*/
+          }
         }
 
-        if (data.playlist.length > 1) {
+        //console.log("selectedIndex::", data.selectedIndex);
+        //console.log("playlistLength::", data.playlist.length);
 
+        if (data.playlist.length > 1) {
+          
           if (data.selectedIndex >= data.playlist.length) {
 
             if (data.loopMode) {
