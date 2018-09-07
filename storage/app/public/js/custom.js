@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    if (data != null) {
-        console.log("window.username::", data.username);
-        console.log("window.idUser::", data.idUser);
+    if (this.data != null) {
+        console.log("window.username::", this.data.username);
+        console.log("window.idUser::", this.data.idUser);
     }
 
     soundManager.setup({
@@ -90,40 +90,6 @@ $(document).ready(function () {
         $("#game-search").removeClass("active");
         $(this).addClass("active");
         $("input[name='searchby']").val("song");
-    });
-
-    $("#search-form").on('submit', function (e) {
-        e.preventDefault();
-        console.log("You clicked the search playlist button!! :)");
-        var searchBy = "game";
-        if ($("#song-search").hasClass("active")) searchBy = "song";
-        const searchString =  $("#search-string").val();
-        const url = '/search?searchBy='+searchBy+'&searchString='+searchString;
-
-        var formData = {
-            idUser: data.idUser,
-            searchBy: searchBy,
-            searchString: searchString
-        }
-
-        console.log("search playlist formData::", formData);        
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $.ajax({
-            url: url,
-            data: formData,
-            type: "GET"
-        }).done(function (data) {
-            console.log("ajax response::", data);
-        }).fail(function (err) {
-            showNotification("Search could not be completed");
-            console.log("Error::", err);
-        });
     });
 
     //********************************************//

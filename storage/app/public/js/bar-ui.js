@@ -220,7 +220,7 @@
         onplay: function () {
           utils.css.swap(dom.o, 'paused', 'playing');
           var item = playlistController.getItem();
-          //console.log("debug::item on play", item);
+          console.log("debug::item on play", item);
           // TODO: the reason that the image will not match the picture until after the second click is 
           // probably because init and refresh don't have callbacks...
           //console.log("item:::", item);
@@ -321,6 +321,7 @@
           callback('finish', this);
 
           // next track?
+          console.log("Explained: getting next track");
           item = playlistController.getNext();
 
           // don't play the same item over and over again, if at end of playlist (excluding single item case.)
@@ -439,6 +440,7 @@
 
         // selection
         selectedIndex: 0,
+        disliked: false,
 
         loopMode: false,
 
@@ -453,7 +455,7 @@
 
       function getItem(offset) {
 
-        //console.log("debug::calling getItem");
+        console.log("debug::calling getItem");
 
         var list,
           item;
@@ -511,6 +513,18 @@
         // don't increment if null.
         if (data.selectedIndex !== null) {
           data.selectedIndex++;
+          // check if the logged in user disliked it or not
+          /*var dislikeButton;
+          try{
+            dislikeButton = data.playlist[data.selectedIndex].children[0].children[3].children[0];
+            if (dislikeButton.classList.contains('sm2-disliked')){
+              console.log('Skipping disliked song.');
+              getNext();
+            }
+          }
+          catch(e){
+            console.log('Error checking for dislikes:', e.message);
+          }*/
         }
 
         if (data.playlist.length > 1) {
@@ -686,7 +700,7 @@
 
         dom.playlistTarget = utils.dom.get(dom.o, '.sm2-playlist-target');
         dom.playlistContainer = utils.dom.get(dom.o, '.sm2-playlist-drawerz'); //admin: added a z, something with the styles was messing up the jscroll...
-        dom.playlist = utils.dom.get(dom.o, '.sm2-playlist-bd'); //admin: this is where it gets the list of items to play
+        dom.playlist = utils.dom.get(dom.o, '.sm2-playlist-bd'); //explained: this is where it gets the list of items to play
         dom.pageSwitch = false;
       }
 

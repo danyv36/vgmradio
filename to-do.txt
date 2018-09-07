@@ -31,7 +31,7 @@ to-do:
 -(done) edit playlist name or description
 -(done)add delete playlist button on playlist page
 
-->search bar for main playlist
+-(done)search bar for main playlist
 
 -when user clicks on dislike, skip it
 -when user removes song from playlist, remove it from the soundmanager dom as well! >;)
