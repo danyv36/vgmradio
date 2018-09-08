@@ -2,6 +2,7 @@ $(document).ready(function () {
     if (this.data != null) {
         console.log("window.username::", this.data.username);
         console.log("window.idUser::", this.data.idUser);
+        console.log("window.playlist::", this.data.idPlaylist);
     }
 
     soundManager.setup({
@@ -98,7 +99,7 @@ $(document).ready(function () {
     $(function () {
         $('body').on('click', '.pagination a', function (e) {
             e.preventDefault();
-            console.log("on click::::");
+            //console.log("on click::::");
 
             //$('#load a').css('color', '#dfecf6');
             //$('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/images/loading.gif" />');
@@ -132,7 +133,7 @@ $(document).ready(function () {
                 }
             }).fail(function (err) {
                 alert('Songs could not be loaded.');
-                console.log("Error::", err);
+                console.log('Error when trying to load song', err. message);
             });
         }
     });
@@ -158,7 +159,7 @@ $(document).ready(function () {
             console.log("ajax response::", data);
         }).fail(function (err) {
             showNotification('Like could not be saved.');
-            console.log("Error::", err);
+            console.log("Error when trying to save like: ", err.message);
         });
     }
 
@@ -218,11 +219,12 @@ $(document).ready(function () {
     //********************************************//
     //        Remove items from playlist          //
     //********************************************//
+    const self = window;
     $(".songs-list").on('click', '.remove-song', function (event) {
         console.log("You clicked the drop down menu to remove!! :)");
         var removeSong = $(this).parent().parent().parent().parent().parent();
         var idSong = $(this).parent().parent().parent().siblings(":first").children(":first")[0].dataset.id; // get id of song
-        var idPlaylist = $(this)[0].dataset.id; // get id of playlist
+        var idPlaylist = self.data.idPlaylist;
 
         var formData = {
             idSong: idSong,
@@ -250,7 +252,7 @@ $(document).ready(function () {
             // Now remove it from the dom
         }).fail(function (err) {
             showNotification("Song could not be removed from playlist");
-            console.log("Error::", err);
+            console.log("Error removing playlist:", err.message);
         });
     });
 

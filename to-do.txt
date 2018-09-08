@@ -33,8 +33,9 @@ to-do:
 
 -(done)search bar for main playlist
 
--when user clicks on dislike, skip it
--when user removes song from playlist, remove it from the soundmanager dom as well! >;)
+-(done)when user clicks on dislike, skip it
+-(done)when user removes song from playlist, remove it from the soundmanager dom as well! >;)
+->when reaching end of playlist, stop and don't go to next page
 
 -user form registration
 -request song form

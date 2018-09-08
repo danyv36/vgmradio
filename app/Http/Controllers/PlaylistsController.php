@@ -66,12 +66,16 @@ class PlaylistsController extends Controller
         }
 
         if ($request->ajax()) {
-            return view('playlists/songlist')->withSongs($songs)
+            $html = view('partial.load')->withSongs($songs)
                     ->with('songFolder', $setup)
                     ->with('playlists', $playlists)
                     ->with('msg', '-1')
                     ->render();
+
+            $songsCount = count($songs);
+            return Response::json(array('html' => $html, 'songsCount' => $songsCount));
         }
+        
         return view('playlists/show')->withSongs($songs)
                 ->with('songFolder', $setup)
                 ->with('playlists', $playlists)

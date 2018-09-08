@@ -11,13 +11,19 @@ use Auth;
 use JavaScript;
 use Input;
 use Response;
+use Session;
 
 class SongsController extends Controller
 {
     public function home(Request $request){
         $idUser = 0;
         $playlists = 0;
-        $setup = Setup::where('key', '=', 'songs_folder')->first();
+        $setup = Session::get('setup');
+        if ($setup === NULL){
+            $setup = Setup::where('key', '=', 'songs_folder')->first();
+            Session::put('setup', $setup);
+        }
+
         //$songs = DB::table('songs')->paginate(15); // get songs only
 
         if (Auth::check()){
@@ -30,6 +36,7 @@ class SongsController extends Controller
 
         // for stored procedures, have to do pagination this way:
         // get likes for user if logged in
+        // TODO: store this in a variable somewhere so it won't have to be called each time
         $songs = DB::select('CALL getUserLikes('.$idUser.')');
         $page = Input::get('page', 1);  
         $paginate = 15;  
@@ -38,20 +45,25 @@ class SongsController extends Controller
         $songs = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($songs), $paginate, $page);
 
         // get user playlists
+        // TODO: only get user playlists if a change in playlists was detected (add a flag for this in PlaylistsController?)
         if ($idUser > 0)
             $playlists = DB::table('playlists')->where('iduser', $idUser)->get();
 
         if ($request->ajax()) {
-            return view('partial.load')->withSongs($songs)
-                ->with('songFolder', $setup)
-                ->with('playlists', $playlists)
-                ->with('msg', '-1')
-                ->render();
+            $html = view('partial.load')->withSongs($songs)
+                    ->with('songFolder', $setup)
+                    ->with('playlists', $playlists)
+                    ->with('msg', '-1')
+                    ->render();
+
+            $songsCount = count($songs);
+            return Response::json(array('html' => $html, 'songsCount' => $songsCount));
         }
         return view('index')->withSongs($songs)
                 ->with('songFolder', $setup)
                 ->with('playlists', $playlists)
                 ->with('msg', '-1');
+        //return Response::json(array('setup'=> Session::get('setup'), 'session'=> $calledSession));
     }
 
     public function search(Request $request){

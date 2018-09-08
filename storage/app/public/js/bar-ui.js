@@ -352,19 +352,24 @@
             var currPage = dom.currPage;
             // TODO: verify currPage is int; don't hardcode the URL...
             var nextPage = parseInt(currPage) + 1;
-            var url = "http://127.0.0.1:8000?page=" + nextPage;
+            var pathname = window.location.pathname.toString();
+            console.log('current url is ', pathname);
+            if (!pathname.includes('playlist'))
+              pathname = '';
+            var url = 'http://127.0.0.1:8000'+pathname+'?page=' + nextPage;
             // TODO: check if nextPage is available first :y
-            console.log("nextPage::", nextPage);
+            console.log('nextPage::', nextPage);
 
             $.ajax({
               url: url
             }).done(function (data) {
-              console.log("Got the data::");
-              $('.songs-list').html(data);
+              console.log('Got the data:');
+              $('.songs-list').html(data.html);
+              console.log('behold::', data.songsCount);
               // admin:: init and refresh dom
               dom.currPage = nextPage;
               dom.selectedPage = dom.currPage;
-              console.log("currPage::",currPage, " selectedPage::",dom.selectedPage);
+              console.log('currPage::',currPage, ' selectedPage::',dom.selectedPage);
 
               playlistController.init();
               playlistController.refresh();

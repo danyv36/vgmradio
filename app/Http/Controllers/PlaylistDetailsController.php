@@ -34,7 +34,7 @@ class PlaylistDetailsController extends Controller
                     ['idsong', '=',$idsong],
                     ['idplaylist', '=', $idplaylist]
                 ])->delete();
-                return Response::json(array('status' => 1));
+                return Response::json(array('status' => 1, 'idsong' => $idsong, 'idplaylist' => $idplaylist));
             }
             else{
                 return Response::json(array('status' => 0));
