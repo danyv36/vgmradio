@@ -35,9 +35,12 @@ to-do:
 
 -(done)when user clicks on dislike, skip it
 -(done)when user removes song from playlist, remove it from the soundmanager dom as well! >;)
-->when reaching end of playlist, stop and don't go to next page
+-(done)when reaching end of playlist, stop and don't go to next page
 
--user form registration
+->user form registration
+	-verify that the user doesn't already exist when registering
+	-password has to be at least 8 characters long
+	
 -request song form
 -(pending) if user is guest, use cookies to remember likes and dislikes
 
@@ -46,9 +49,9 @@ to-do:
 -add forgot password
 
 validation stuff:
--verify that the username doesn't already exist when registering
 -user can have a maximum of 20 playlists
 -playlist name limited to 40 characters
+-playlist validation before creating it
 -trying to edit a playlist that isn't from the user's
 -trying to access a playlist id that doesn't exist
 -trying to access a playlist that isn't public

@@ -24,10 +24,10 @@ class SessionsController extends Controller
     }
 
     public function store(){
-        // if username/pass is correct, store the session
-        if (Auth::attempt(Input::only('username', 'password'))){
+        // if email/pass is correct, store the session
+        if (Auth::attempt(Input::only('email', 'password'))){
             //return Auth::user();
-            //return "Welcome " . Auth::user()->username;
+            //return "Welcome " . Auth::user()->email;
         
             return Redirect::route('home');
             //->with('user', Auth::user());

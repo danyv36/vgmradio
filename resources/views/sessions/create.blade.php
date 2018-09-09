@@ -7,8 +7,8 @@
 <body>
     {{ Form::open(['route' => 'sessions.store']) }}
     <div>
-        {{Form::label('username', 'Username: ')}}
-        {{Form::input('text', 'username')}}
+        {{Form::label('email', 'Email: ')}}
+        {{Form::input('text', 'email')}}
     </div>
     <div>
         {{Form::label('password', 'Password: ')}}

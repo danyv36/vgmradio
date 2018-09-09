@@ -8,14 +8,21 @@ use Validator;
 
 class User extends Authenticatable
 {
-    //public $timestamps = false; // to tell laravel that my table doesn't have timestamps
 
+    //public $timestamps = false; // to tell laravel that my table doesn't have timestamps
     public static $rules = array(
-        'username'    => 'required', // make sure the email is an actual email
-        'password' => 'required|alphaNum|min:3' // password can only be alphanumeric and has to be greater than 3 characters
+        'email'    => 'required|email', // make sure the email is an actual email
+        'confirm-email'    => 'required|email|same:email',
+        'password' => 'required|alphaNum|min:3', // password can only be alphanumeric and has to be greater than 3 characters
+        'confirm-password' => 'required|alphaNum|min:3|same:password'
     );
 
-    public static $messages;
+    public static $messages = [
+        'confirm-email.same' => 'Both emails should match.',
+        'confirm-password.same' => 'Both passwords should match.'
+    ];
+
+    public $errors;
 
     use Notifiable;
 
@@ -25,7 +32,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password',
+        'username', 'email', 'password', 'confirm-email', 'confirm-password'
     ];
 
     /**
@@ -37,12 +44,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public static function isValid($data){
-		$validation = Validator::make($data, static::$rules);
+    public function isValid(){
+		$validation = Validator::make($this->attributes, static::$rules, static::$messages);
 		if ($validation->passes()){
 			return true;
 		}
-		static::$messages = $validation->messages();
+		$this->errors = $validation->messages();
 		return false;
 	}
 }

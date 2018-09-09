@@ -20,7 +20,7 @@
     <ul class="nav navbar-nav navbar-right">
         @if (Route::has('login'))
             @auth
-                <p class="navbar-text">{{ Auth::user()->username }}</p>
+                <p class="navbar-text">{{ Auth::user()->email }}</p>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">playlists <span class="caret"></span></a>
                     <ul class="dropdown-menu">
