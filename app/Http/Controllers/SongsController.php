@@ -36,15 +36,15 @@ class SongsController extends Controller
         // for stored procedures, have to do pagination this way:
         // get likes for user if logged in
         // TODO: check if there has been an update where more songs were added
-        //if ($allSongs === NULL){
-            $songs = DB::select('CALL getUserLikes('.$idUser.')');
-          //  Session::put('songs', $songs);
-        //}
+        if ($allSongs === NULL){
+            $allSongs = DB::select('CALL getUserLikes('.$idUser.')');
+            Session::put('allSongs', $allSongs);
+        }
         $page = Input::get('page', 1);  
         $paginate = 15;  
         $offSet = ($page * $paginate) - $paginate;  
-        $itemsForCurrentPage = array_slice($songs, $offSet, $paginate, true);  
-        $songs = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($songs), $paginate, $page);
+        $itemsForCurrentPage = array_slice($allSongs, $offSet, $paginate, true);  
+        $songs = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($allSongs), $paginate, $page);
 
         // get user playlists
         // TODO: only get user playlists if a change in playlists was detected

@@ -363,18 +363,19 @@
             $.ajax({
               url: url
             }).done(function (data) {
-              console.log('Got the data:');
-              $('.songs-list').html(data.html);
               console.log('behold::', data.songsCount);
-              // admin:: init and refresh dom
-              dom.currPage = nextPage;
-              dom.selectedPage = dom.currPage;
-              console.log('currPage::',currPage, ' selectedPage::',dom.selectedPage);
-
-              playlistController.init();
-              playlistController.refresh();
-              playlistController.data.selectedIndex = 0;
-              playlistController.playItemByOffset(0);
+              if (data.songsCount > 0){
+                $('.songs-list').html(data.html);
+                // admin:: init and refresh dom
+                dom.currPage = nextPage;
+                dom.selectedPage = dom.currPage;
+                console.log('currPage::',currPage, ' selectedPage::',dom.selectedPage);
+  
+                playlistController.init();
+                playlistController.refresh();
+                playlistController.data.selectedIndex = 0;
+                playlistController.playItemByOffset(0);
+              }
             }).fail(function () {
               alert('Songs could not be loaded.');
             });

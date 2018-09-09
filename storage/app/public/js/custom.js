@@ -105,7 +105,6 @@ $(document).ready(function () {
             //$('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/images/loading.gif" />');
 
             var url = $(this).attr('href');
-            console.log('url before split::', url);
             var page = url.split('page=')[1];
             console.log("url::", url, "page::", page)
             getSongs(url, page);
@@ -116,7 +115,7 @@ $(document).ready(function () {
             $.ajax({
                 url: url
             }).done(function (data) {
-                $('.songs-list').html(data);
+                $('.songs-list').html(data.html);
                 // don't refresh the playlist just yet, since otherwise it will lose the current spot
                 // when it starts to play the next song
                 window.sm2BarPlayers[0].playlistController.setSelectedPage(parseInt(page));
