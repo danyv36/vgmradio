@@ -105,6 +105,7 @@ $(document).ready(function () {
             //$('#load').append('<img style="position: absolute; left: 0; top: 0; z-index: 100000;" src="/images/loading.gif" />');
 
             var url = $(this).attr('href');
+            console.log('url before split::', url);
             var page = url.split('page=')[1];
             console.log("url::", url, "page::", page)
             getSongs(url, page);

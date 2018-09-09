@@ -19,12 +19,11 @@ class SongsController extends Controller
         $idUser = 0;
         $playlists = 0;
         $setup = Session::get('setup');
+        $allSongs = Session::get('allSongs');
         if ($setup === NULL){
             $setup = Setup::where('key', '=', 'songs_folder')->first();
             Session::put('setup', $setup);
         }
-
-        //$songs = DB::table('songs')->paginate(15); // get songs only
 
         if (Auth::check()){
             $idUser = Auth::user()->id;
@@ -36,8 +35,11 @@ class SongsController extends Controller
 
         // for stored procedures, have to do pagination this way:
         // get likes for user if logged in
-        // TODO: store this in a variable somewhere so it won't have to be called each time
-        $songs = DB::select('CALL getUserLikes('.$idUser.')');
+        // TODO: check if there has been an update where more songs were added
+        //if ($allSongs === NULL){
+            $songs = DB::select('CALL getUserLikes('.$idUser.')');
+          //  Session::put('songs', $songs);
+        //}
         $page = Input::get('page', 1);  
         $paginate = 15;  
         $offSet = ($page * $paginate) - $paginate;  
@@ -45,7 +47,7 @@ class SongsController extends Controller
         $songs = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($songs), $paginate, $page);
 
         // get user playlists
-        // TODO: only get user playlists if a change in playlists was detected (add a flag for this in PlaylistsController?)
+        // TODO: only get user playlists if a change in playlists was detected
         if ($idUser > 0)
             $playlists = DB::table('playlists')->where('iduser', $idUser)->get();
 

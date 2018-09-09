@@ -66,7 +66,7 @@ class PlaylistsController extends Controller
         }
 
         if ($request->ajax()) {
-            $html = view('partial.load')->withSongs($songs)
+            $html = view('playlists/songlist')->withSongs($songs)
                     ->with('songFolder', $setup)
                     ->with('playlists', $playlists)
                     ->with('msg', '-1')
