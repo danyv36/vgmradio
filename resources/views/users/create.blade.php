@@ -1,33 +1,31 @@
 @extends('layouts.default')
 @section('main_content')
 <div class="container">
-    <h2>Create New User</h2>
+    <div class="form-signin">
+    <h2 class="text-center">Sign up</h2>
 
-    {!! Form::open(['route' => 'users.store']) !!}
+    {!! Form::open(['route' => 'users.store', 'class' => 'form-horizontal']) !!}
 
         <div class="form-group">
-            <label for="email">E-mail</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" >
+            <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Enter email" >
             {!! $errors->first('email', '<div class="alert alert-danger">:message</div>') !!}
         </div>
         <div class="form-group">
-            <label for="confirm-email">Confirm e-mail</label>
-            <input type="email" class="form-control" id="confirm-email" name="confirm-email" value="{{ old('confirm-email') }}">
+            <input type="email" class="form-control" id="confirm-email" name="confirm-email" value="{{ old('confirm-email') }}" placeholder="Confirm email">
             {!! $errors->first('confirm-email', '<div class="alert alert-danger">:message</div>') !!}
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
             {!! $errors->first('password', '<div class="alert alert-danger">:message</div>') !!}
         </div>
         <div class="form-group">
-            <label for="confirm-password">Confirm password</label>
-            <input type="password" class="form-control" id="confirm-password" name="confirm-password">
+            <input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="Confirm password">
             {!! $errors->first('confirm-password', '<div class="alert alert-danger">:message</div>') !!}
         </div>
 
-        <button type="submit" class="btn btn-info create-playlist">Register</button>
+        <button type="submit" class="btn btn-primary btn-block create-playlist btn-lg">Register</button>
     {!!Form::close()!!}
+    
 </div>
 
 @include('footer')
