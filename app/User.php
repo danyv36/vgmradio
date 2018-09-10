@@ -18,8 +18,8 @@ class User extends Authenticatable
     );
 
     public static $messages = [
-        'confirm-email.same' => 'Both emails should match.',
-        'confirm-password.same' => 'Both passwords should match.'
+        'confirm-email.same' => 'E-mails should match.',
+        'confirm-password.same' => 'Passwords should match.'
     ];
 
     public $errors;

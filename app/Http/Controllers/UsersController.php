@@ -24,11 +24,11 @@ class UsersController extends Controller
     public function store(){
         // go back and check Refactoring video
         $input = Input::all();
-        return $input;
+        //return $input;
         $this->user->fill($input);
         if(! $this->user->fill($input)->isValid())
 		{
-			return Redirect::back()->withInput()->withErrors($this->user->errors);
+			return Redirect::back()->withInput(Input::all())->withErrors($this->user->errors);
 		}
 
         /*$user = new User;
