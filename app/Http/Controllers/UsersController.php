@@ -39,7 +39,7 @@ class UsersController extends Controller
         
         $searchResult = DB::select("CALL getEmailExists('".$email. "')");
         //return $searchResult;
-        if (is_null($searchResult[0]->id))
+        if (empty($searchResult))
             $this->user->save();
         else {
             $errors = array('email'=> array('Email is already taken.'));

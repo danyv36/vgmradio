@@ -2,8 +2,8 @@
 <ul>
 	@if ($users->count())
 		@foreach ($users as $user)
-			<li>{{Html::link("/users/{$user->username}", $user->username, $user->username, null)}}</li>
-			<li>{{ $user->username}}</li>
+			<li>{{Html::link("/users/{$user->email}", $user->email, $user->email, null)}}</li>
+			<li>{{ $user->email}}</li>
 		@endforeach
 	@else
 		<p>Unfortunately, no users! :y</p>
