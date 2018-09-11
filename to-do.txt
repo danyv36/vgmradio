@@ -38,11 +38,15 @@ to-do:
 -(done)when reaching end of playlist, stop and don't go to next page
 
 ->user form registration
-	-verify that the user doesn't already exist when registering
-	-password has to be at least 8 characters long
+	-(done)verify that the user doesn't already exist when registering
+	-(done)password has to be at least 8 characters long
+	-send email with code to activate account
+	-verify activation code and activate account
+	-add resend code link
 	
 -request song form
 -(pending) if user is guest, use cookies to remember likes and dislikes
+	-for right now, don't show like and dislike icon for each song
 
 -when logging in, if incorrect, display errors
 -add remember me checkbox

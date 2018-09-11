@@ -1,21 +1,24 @@
-<!doctype html>
+@extends('layouts.default')
+@section('main_content')
+<div class="container">
+    <div class="form-signin">
+    <h2 class="text-center">Log in</h2>
 
-<html>
-<head>
-    <meta charset="utf-8">
-</head>
-<body>
-    {{ Form::open(['route' => 'sessions.store']) }}
-    <div>
-        {{Form::label('email', 'Email: ')}}
-        {{Form::input('text', 'email')}}
-    </div>
-    <div>
-        {{Form::label('password', 'Password: ')}}
-        {{Form::password('password')}}
-    </div>
+    {!! Form::open(['route' => 'sessions.store']) !!}
 
-    <div>{{Form::submit('Login')}}</div>
-    {{ Form::close() }}
-</body>
-</html>
+        <div class="form-group">
+            <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Email address" >
+            {!! $errors->first('email', '<div class="alert alert-danger">:message</div>') !!}
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            {!! $errors->first('password', '<div class="alert alert-danger">:message</div>') !!}
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block create-playlist btn-lg">Log in</button>
+    {!!Form::close()!!}
+    
+</div>
+
+@include('footer')
+@stop
