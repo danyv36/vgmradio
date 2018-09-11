@@ -14,12 +14,13 @@ class User extends Authenticatable
         'email'    => 'required|email', // make sure the email is an actual email
         'confirm-email'    => 'required|email|same:email',
         'password' => 'required|alphaNum|min:3', // password can only be alphanumeric and has to be greater than 3 characters
-        'confirm-password' => 'required|alphaNum|min:3|same:password'
+        'confirm-password' => 'required|alphaNum|min:6|same:password'
     );
 
     public static $messages = [
         'confirm-email.same' => 'E-mails should match.',
-        'confirm-password.same' => 'Passwords should match.'
+        'confirm-password.same' => 'Passwords should match.',
+        'confirm-password.min' => 'Password should be at least 6 characters long'
     ];
 
     public $errors;
@@ -32,7 +33,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password', 'confirm-email', 'confirm-password'
+        'email', 'password', 'confirm_code'
     ];
 
     /**
@@ -41,11 +42,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'confirm-password', 'remember_token'
     ];
 
-    public function isValid(){
-		$validation = Validator::make($this->attributes, static::$rules, static::$messages);
+    public function isValid($data){
+		$validation = Validator::make($data, static::$rules, static::$messages);
 		if ($validation->passes()){
 			return true;
 		}

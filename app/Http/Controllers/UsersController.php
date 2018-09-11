@@ -8,6 +8,7 @@ use Input;
 use Hash;
 use Redirect;
 use Validator;
+use Mail;
 
 class UsersController extends Controller
 {
@@ -25,19 +26,26 @@ class UsersController extends Controller
         // go back and check Refactoring video
         $input = Input::all();
         //return $input;
+        $confirmationCode = str_random(8);
         $this->user->fill($input);
-        if(! $this->user->fill($input)->isValid())
+        $email = $this->user->email;
+        $value = config('mail');
+        info($value);
+        if(! $this->user->isValid($input))
 		{
 			return Redirect::back()->withInput(Input::all())->withErrors($this->user->errors);
 		}
 
-        /*$user = new User;
-        //Input is from the Form input
-        $user->username = Input::get('username');
-        $user->password = Hash::make(Input::get('password'));
-        $user->save();*/
-
         $this->user->save();
+        $data = array('email' => $email, 'confirmationCode' => $confirmationCode);
+        Mail::send('emails.confirm', $data, function ($message)
+        {
+
+            $message->from('admin@vgmrad.io', 'Daniela Valadez');
+
+            $message->to('8102c404a3-6ace2c@inbox.mailtrap.io');
+
+        });
 
         return Redirect::route('users.index');
     }
