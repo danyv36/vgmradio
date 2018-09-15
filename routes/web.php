@@ -15,6 +15,8 @@ Route::get('/', 'SongsController@home')->name('home');
 Route::get('/search', 'SongsController@search2')->name('search');
 Route::resource('users', 'UsersController');
 Route::get('/register', 'UsersController@create');
+Route::post('/activate/user', 'UsersController@activateAccount')->name('activateAccount');
+Route::get('/activate/user/{user}', 'UsersController@showActivate')->name('showActivate');
 Route::resource('sessions', 'SessionsController');
 Route::resource('likes', 'LikesController');
 Route::resource('playlists', 'PlaylistsController');

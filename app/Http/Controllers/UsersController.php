@@ -40,7 +40,7 @@ class UsersController extends Controller
             //return ($this->user->errors);
         }
         
-        $searchResult = DB::select("CALL getEmailExists('".$email. "')");
+        $searchResult = DB::select("CALL getEmailExists('".$email. "', 0)");
         if (empty($searchResult))
             $this->user->save();
         else {
@@ -69,5 +69,14 @@ class UsersController extends Controller
 		return view('users/index')->withUsers($users); // laravel assumes we are looking for a Users key
 		// OR!!! 
 		//return view('users/index', ['users' => $users]);
-	}
+    }
+    
+    public function showActivate(){
+        return view('activate/user');
+    }
+
+    public function activateAccount(){
+        $searchResult = DB::select("CALL getEmailExists('".$email. "', 0)");
+        return 1;
+    }
 }

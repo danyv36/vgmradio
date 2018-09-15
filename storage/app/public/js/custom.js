@@ -22,7 +22,7 @@ $(document).ready(function () {
     });
 
     $(".sm2-dislike, .sm2-disliked").click(function () {
-        console.log("disliked clicked!");
+        // console.log("disliked clicked!");
         var likeButton = $(this).parent().prev().children();
         //var idSong = $(this).parent().siblings()[2].textContent;
         var idSong = $(this).parent().siblings(":first").children(":first")[0].dataset.id;

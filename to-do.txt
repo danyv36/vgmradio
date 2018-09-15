@@ -40,7 +40,7 @@ to-do:
 ->user form registration
 	-(done)verify that the user doesn't already exist when registering
 	-(done)password has to be at least 8 characters long
-	-send email with code to activate account
+	-send email with code to activate account and a link to the page
 	-verify activation code and activate account
 	-add resend code link
 	

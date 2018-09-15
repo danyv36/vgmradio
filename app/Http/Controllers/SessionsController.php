@@ -27,7 +27,7 @@ class SessionsController extends Controller
     public function store(){
         // check first if account has been verified
         $email = Input::get('email');
-        $searchResult = DB::select("CALL getEmailExists('".$email. "')");
+        $searchResult = DB::select("CALL getEmailExists('".$email. "', 0)");
         $errors = '';
         //return $searchResult;
         if (!is_null($searchResult[0]->id)){
@@ -38,7 +38,7 @@ class SessionsController extends Controller
                 if (Auth::attempt(Input::only('email', 'password'))){
                     return Redirect::route('home');
                 } else $errors = array('error' => 'Email or password are incorrect');
-            } else $errors = array('error' => 'Email account has not been validated yet.');
+            } else $errors = array('error' => 'Email account has not been validated yet.'); // ask if they want another code and then redirect to activation page
         }
         else $errors = array('error' => 'Email does not exist');
         return Redirect::back()->withInput(Input::all())->withErrors($errors);
