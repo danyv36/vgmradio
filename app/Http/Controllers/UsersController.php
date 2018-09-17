@@ -8,6 +8,7 @@ use Input;
 use Hash;
 use Redirect;
 use Validator;
+use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use Mail;
 
@@ -27,10 +28,12 @@ class UsersController extends Controller
         // go back and check Refactoring video
         $input = Input::all();
         $confirm_code = str_random(8);
+        $activate_url = str_random(15);
         //$this->user->fill($input);
         $this->user->email = Input::get('email');
         $this->user->password = Hash::make(Input::get('password'));
         $this->user->confirm_code = $confirm_code;
+        $this->user->activate_url = $activate_url;
         $email = $this->user->email;
         //$value = config('mail');
         //info($value);
@@ -58,7 +61,9 @@ class UsersController extends Controller
 
         });*/
 
-        return Redirect::route('users.index');
+        $user = $this->user->id.'='.$activate_url;
+
+        return Redirect::route('showActivate', $user);
     }
 
     public function index(){
@@ -71,12 +76,26 @@ class UsersController extends Controller
 		//return view('users/index', ['users' => $users]);
     }
     
-    public function showActivate(){
-        return view('activate/user');
+    public function showActivate(Request $request, $user){
+        $array = explode("=", $user);
+        $idUser = $array[0];
+        $activation_url = $array[1];
+        if (!empty($activation_url) && !empty($idUser)){
+            $searchResult = DB::select("CALL getEmailExists('',". $idUser. ")");
+            if (!empty($searchResult)){
+                if ($searchResult[0]->activate_url == $activation_url){
+                    return view('activate/user');
+                }
+                else{
+                    return "Hey! You're not supposed to be here!";
+                }
+            }
+        }
+        return "Something went wrong!";
     }
 
-    public function activateAccount(){
-        $searchResult = DB::select("CALL getEmailExists('".$email. "', 0)");
-        return 1;
+    public function activateAccount(Request $request){
+        // $searchResult = DB::select("CALL getEmailExists('".$email. "', 0)");
+        
     }
 }

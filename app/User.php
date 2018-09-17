@@ -33,7 +33,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'email', 'password', 'confirm_code'
+        'email', 'password', 'confirm_code', 'activate_url'
     ];
 
     /**
@@ -42,7 +42,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'confirm-password', 'remember_token'
+        'password', 'confirm-password', 'remember_token', 'activate_url'
     ];
 
     public function isValid($data){
